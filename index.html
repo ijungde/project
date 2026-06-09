@@ -232,7 +232,7 @@ body {
   <button class="tab-btn active" onclick="switchTab('sched')">📅 시간표</button>
   <button class="tab-btn"        onclick="switchTab('guide')">📋 수업 안내문</button>
   <button class="tab-btn"        onclick="switchTab('pay')">💳 결제 안내</button>
-  <button class="tab-btn"        onclick="switchTab('alimi')">📸 이미지</button>
+  <button class="tab-btn external" onclick="openLink('wawa_alimi.html')">📸 이미지</button>
   <button class="tab-btn external" onclick="openLink('https://ijungde.github.io/-/')">📆 월간</button>
   <button class="tab-btn external" onclick="openLink('https://ijungde.github.io/wawa-manager/')">👥 원생관리</button>
 </div>
@@ -250,39 +250,7 @@ body {
       <div class="sched-box">
         <div class="sched-box-title">✏️ 정보 입력</div>
 
-        <!-- 지점/전화 -->
-        <div style="display:flex; gap:8px;">
-          <div style="flex:1;">
-            <label class="inp-label">지점명 (비워두면 미표시)</label>
-            <input id="inp-branch" type="text" placeholder="예) 수지점"
-              oninput="updateBranch()"
-              class="inp-field" style="width:100%;" />
-          </div>
-          <div style="flex:1;">
-            <label class="inp-label">학원 전화번호 (비워두면 미표시)</label>
-            <input id="inp-tel" type="text" placeholder="예) 031) 297-7001"
-              oninput="updateBranch()"
-              class="inp-field" style="width:100%;" />
-          </div>
-        </div>
-
-        <!-- 로고 체크박스 -->
-        <div>
-          <label class="inp-label">🏷️ 상단 로고 선택 (복수 선택 가능)</label>
-          <div style="display:flex; gap:8px; margin-top:4px; flex-wrap:wrap;">
-            <label style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;cursor:pointer;background:#FFF5EE;padding:6px 12px;border-radius:20px;border:1.5px solid #FFD4B0;">
-              <input type="checkbox" id="logo-wawa" checked onchange="updateLogo()"> wawa
-            </label>
-            <label style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;cursor:pointer;background:#FFF5EE;padding:6px 12px;border-radius:20px;border:1.5px solid #FFD4B0;">
-              <input type="checkbox" id="logo-wplus" checked onchange="updateLogo()"> W+
-            </label>
-            <label style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;cursor:pointer;background:#FFF5EE;padding:6px 12px;border-radius:20px;border:1.5px solid #FFD4B0;">
-              <input type="checkbox" id="logo-glory" checked onchange="updateLogo()"> 글로리드
-            </label>
-          </div>
-        </div>
-
-        <!-- 이름 + 결제일 (로고 아래) -->
+        <!-- 이름 + 결제일 -->
         <div style="display:flex; gap:10px;">
           <div style="flex:1;">
             <label class="inp-label">학생 이름</label>
@@ -690,7 +658,7 @@ function buildSms() {
   const paydate    = paydateRaw
     ? (/^\d+$/.test(paydateRaw) ? paydateRaw + '일' : paydateRaw)
     : '10일';
-  const branch  = (document.getElementById('inp-branch').value || '').trim();
+  const branch  = '수지점';
   const total   = subjects.reduce((s, x) => s + (x.fee || 0), 0);
 
   const subjectLines = subjects
@@ -701,10 +669,7 @@ function buildSms() {
   const totalLine = subjects.filter(s=>s.name).length > 1
     ? `\n합계 : ${total.toLocaleString()}원` : '';
 
-  // 지점명 있으면 제목에 반영
-  const header = branch
-    ? `[${branch} 교육비 납부 안내]`
-    : `[WAWA 교육비 납부 안내]`;
+  const header = `[wawa 교육비 납부 안내]`;
 
   const sms =
 `${header}
@@ -810,8 +775,8 @@ function applySchedTheme(color) {
 
 // 지점명/전화번호 → 모든 카드 푸터 동기화
 function updateBranch() {
-  const branch = (document.getElementById('inp-branch').value || '').trim();
-  const tel    = (document.getElementById('inp-tel').value || '').trim();
+  const branch = '수지점';
+  const tel    = '031) 297-7001';
   const hide   = !branch && !tel;
 
   ['footer-sched','footer-guide','footer-pay'].forEach(id => {
@@ -844,9 +809,9 @@ function updateBranch() {
 
 // 로고 체크박스 → 모든 카드 로고 동기화
 function updateLogo() {
-  const showWawa  = document.getElementById('logo-wawa').checked;
-  const showWplus = document.getElementById('logo-wplus').checked;
-  const showGlory = document.getElementById('logo-glory').checked;
+  const showWawa  = true;
+  const showWplus = true;
+  const showGlory = true;
 
   const sets = [
     { w:'lt-wawa-s', wp:'lt-wplus-s', g:'lt-glory-s', d1:'ld1-s', d2:'ld2-s' },
@@ -951,6 +916,18 @@ async function capture(cardId, btnId, name) {
 }
 
 // 초기화
+// 지점/전화 고정값으로 푸터 세팅
+(function(){
+  var els = ['footer-sched-txt','footer-guide-txt','footer-pay-txt'];
+  els.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.innerHTML = '<strong>수지점</strong>&nbsp;&nbsp;<span class="tel">031) 297-7001</span>';
+  });
+  ['footer-sched','footer-guide','footer-pay'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = '';
+  });
+})();
 renderSubjectList();
 </script>
 </body>

@@ -176,15 +176,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
             <option value="7">7월</option><option value="8">8월</option><option value="9">9월</option>
             <option value="10">10월</option><option value="11">11월</option><option value="12">12월</option>
           </select></div>
-        <div style="flex:1;"><span class="lbl">학원명</span>
-          <input id="c-brand" class="inp" value="wawa. W+. 글로리드" style="width:100%;"
-            oninput="$('s-brand').textContent=this.value;$('s-fbrand').textContent=this.value"></div>
         <div><span class="lbl">🎨 색상</span>
           <input type="color" id="c-theme" value="#FF6B1A" style="width:40px;height:33px;border:none;border-radius:8px;cursor:pointer;display:block;" oninput="applyTheme(this.value)"></div>
       </div>
-      <div style="margin-bottom:7px;"><span class="lbl">전화번호</span>
-        <input id="c-tel" class="inp" value="031 297 7001" style="width:100%;"
-          oninput="$('s-tel').textContent=this.value;$('s-ftel').textContent=this.value"></div>
       <div style="margin-bottom:7px;"><span class="lbl">헤더 부제 (예: 따뜻하고 책임감 넘치는)</span>
         <input id="c-hsub" class="inp" value="따뜻하고 책임감 넘치는" style="width:100%;"
           oninput="$('s-hsub').textContent=this.value"></div>
@@ -275,8 +269,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
     <div class="slide" id="main-slide">
       <div class="s-header">
         <div class="h-top">
-          <div class="h-brand" id="s-brand">wawa. W+. 글로리드</div>
-          <div class="h-tel" id="s-tel">수지점 031 297 7001</div>
+          <div class="h-brand">wawa. W+. 글로리드</div>
+          <div class="h-tel">수지점 031 297 7001</div>
         </div>
         <div class="h-main-row">
           <div>
@@ -353,9 +347,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
       <div class="s-footer">
         <div class="s-footer-note" id="s-note">* 상기 일정은 학원 사정에 따라 변경될 수 있습니다.</div>
         <div class="s-footer-brand">
-          <span id="s-fbrand">wawa. W+. 글로리드</span>
+          <span>wawa. W+. 글로리드</span>
           <span style="color:rgba(255,255,255,.4);">|</span>
-          <span id="s-ftel">031 297 7001</span>
+          <span>수지점 031 297 7001</span>
         </div>
       </div>
     </div>
@@ -381,20 +375,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
       </div>
       <div style="margin-bottom:8px;"><span class="lbl">부제</span>
         <input id="n-sub" class="inp" value="해당 날짜 수업 일정을 안내드립니다" style="width:100%;" oninput="renderNotice()"></div>
-      <div>
-        <span class="lbl" style="margin-bottom:5px;display:block;">🏷️ 상단 로고 선택 (복수 선택 가능)</span>
-        <div style="display:flex;gap:7px;flex-wrap:wrap;">
-          <label style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;cursor:pointer;background:#FFF5EE;padding:5px 11px;border-radius:20px;border:1.5px solid #FFD4B0;">
-            <input type="checkbox" id="n-logo-wawa" checked onchange="renderNotice()"> wawa
-          </label>
-          <label style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;cursor:pointer;background:#FFF5EE;padding:5px 11px;border-radius:20px;border:1.5px solid #FFD4B0;">
-            <input type="checkbox" id="n-logo-wplus" checked onchange="renderNotice()"> W+
-          </label>
-          <label style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;cursor:pointer;background:#FFF5EE;padding:5px 11px;border-radius:20px;border:1.5px solid #FFD4B0;">
-            <input type="checkbox" id="n-logo-glory" checked onchange="renderNotice()"> 글로리드
-          </label>
-        </div>
-      </div>
     </div>
 
     <!-- 글씨 크기 — 위로 -->
@@ -423,10 +403,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
       <div class="panel-title">📝 하단 정보</div>
       <div style="margin-bottom:7px;"><span class="lbl">안내문구</span>
         <input id="n-note" class="inp" value="* 문의사항은 담당 선생님께 연락 주세요." style="width:100%;" oninput="renderNotice()"></div>
-      <div style="margin-bottom:7px;"><span class="lbl">학원 로고/이름</span>
-        <input id="n-brand" class="inp" value="wawa. W+. 글로리드" style="width:100%;" oninput="renderNotice()"></div>
-      <div><span class="lbl">전화번호</span>
-        <input id="n-tel" class="inp" value="수지점 031 297 7001" style="width:100%;" oninput="renderNotice()"></div>
     </div>
   </div>
 
@@ -434,19 +410,12 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
   <div class="lr-right">
     <div class="notice-slide" id="notice-slide">
       <div class="ns-hd" id="ns-hd">
-        <div id="ns-logo-row" style="display:flex;align-items:center;gap:5px;margin-bottom:8px;position:relative;z-index:2;">
-          <span id="ns-lt-wawa" style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.88);">wawa</span>
-          <span id="ns-ld1" style="color:rgba(255,255,255,0.4);font-size:10px;">|</span>
-          <span id="ns-lt-wplus" style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.88);">W+</span>
-          <span id="ns-ld2" style="color:rgba(255,255,255,0.4);font-size:10px;">|</span>
-          <span id="ns-lt-glory" style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.88);">글로리드</span>
-        </div>
         <div class="ns-title" id="ns-title">공휴일 수업 안내</div>
         <div class="ns-sub" id="ns-sub">해당 날짜 수업 일정을 안내드립니다</div>
       </div>
       <div class="ns-body" id="ns-body"></div>
       <div class="ns-ft" id="ns-ft">
-        <div class="ns-ft-note" id="ns-note">* 문의사항은 담당 선생님께 연락 주세요.</div>
+        <div class="ns-ft-note" id="ns-note" style="font-size:13px;font-weight:700;color:#555;">* 문의사항은 담당 선생님께 연락 주세요.</div>
         <div class="ns-ft-brand" id="ns-ft-brand">
           <span id="ns-brand-txt">wawa. W+. 글로리드</span>
           <span style="margin:0 4px;opacity:.5;">|</span>
@@ -688,29 +657,18 @@ function renderNotice(){
   const lightBg=`rgba(${r},${g},${b},0.08)`;
   const borderClr=`rgba(${r},${g},${b},0.2)`;
 
-  // 로고 체크박스 반영
-  const showWawa  = $('n-logo-wawa').checked;
-  const showWplus = $('n-logo-wplus').checked;
-  const showGlory = $('n-logo-glory').checked;
-  $('ns-lt-wawa').style.display  = showWawa  ? '' : 'none';
-  $('ns-lt-wplus').style.display = showWplus ? '' : 'none';
-  $('ns-lt-glory').style.display = showGlory ? '' : 'none';
-  $('ns-ld1').style.display = (showWawa && showWplus) ? '' : 'none';
-  $('ns-ld2').style.display = ((showWawa || showWplus) && showGlory) ? '' : 'none';
-  // 로고 행 전체 — 아무것도 없으면 숨김
-  $('ns-logo-row').style.display = (showWawa || showWplus || showGlory) ? 'flex' : 'none';
-
+  // 로고 행 숨김 (수지점 전용 — 로고 선택 없음)
   $('ns-hd').style.background=color;
   $('ns-title').textContent=$('n-title').value;
   $('ns-title').style.fontSize=titleSz;
   $('ns-sub').textContent=$('n-sub').value;
   $('ns-note').textContent=$('n-note').value;
-  $('ns-note').style.color=`rgba(${r},${g},${b},0.85)`;
+  $('ns-note').style.color=`rgba(${r},${g},${b},0.9)`;
   $('ns-ft').style.background=lightBg;
   $('ns-ft').style.borderTop=`2px solid ${borderClr}`;
   $('ns-ft-brand').style.color=color;
-  $('ns-brand-txt').textContent=$('n-brand').value;
-  $('ns-tel-txt').textContent=$('n-tel').value;
+  $('ns-brand-txt').textContent='wawa. W+. 글로리드';
+  $('ns-tel-txt').textContent='수지점 031 297 7001';
 
   $('ns-body').innerHTML=nItems.map(item=>`
     <div style="background:#fff;border:1.5px solid #f0f0f0;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05);">
