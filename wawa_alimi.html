@@ -3,28 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>우리학원 알리미</title>
+<title>학원 알리미</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root{--og:#FF6B1A;--og2:#FF8C42;--pink:#fd79a8;--text:#2d2d2d;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-direction:column;align-items:center;padding:20px 16px;gap:14px;}
-
-/* 탭 네비 */
 .tab-nav{width:100%;max-width:1200px;display:flex;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.2);}
 .tab-btn{flex:1;padding:13px 8px;border:none;background:transparent;font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;color:#aaa;cursor:pointer;transition:all .2s;border-bottom:3px solid transparent;}
 .tab-btn.on{color:var(--og);border-bottom-color:var(--og);background:#fff8f4;}
 .tab-btn:hover:not(.on){color:#FF8C42;background:#fffaf7;}
 .tab-page{display:none;width:100%;max-width:1200px;}
 .tab-page.on{display:block;}
-
-/* 좌우 레이아웃 */
 .lr-wrap{display:flex;gap:16px;align-items:flex-start;width:100%;}
 .lr-left{width:380px;flex-shrink:0;display:flex;flex-direction:column;gap:12px;}
 .lr-right{flex:1;display:flex;flex-direction:column;gap:12px;align-items:center;}
-
-/* 패널 */
 .panel{background:#fff;border-radius:16px;padding:16px 18px;box-shadow:0 4px 20px rgba(0,0,0,0.2);width:100%;}
 .panel-title{font-size:13px;font-weight:700;color:var(--og);border-bottom:2px solid #fff0e8;padding-bottom:8px;margin-bottom:12px;}
 .lbl{font-size:10px;font-weight:700;color:#aaa;letter-spacing:.3px;display:block;margin-bottom:3px;}
@@ -36,11 +30,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
 .br{background:#ff7675;color:#fff;}
 .bg{background:#00b894;color:#fff;}
 .li{display:flex;gap:7px;align-items:center;margin-bottom:5px;background:#fafafa;border-radius:8px;padding:6px 8px;}
-.dv{height:1px;background:#f0f0f0;margin:10px 0;}
 .rw{display:flex;align-items:center;gap:5px;}
 .rv{font-size:10px;color:#aaa;width:28px;}
-
-/* 슬라이드 */
 .slide{width:620px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 12px 60px rgba(0,0,0,0.4);}
 .s-header{background:var(--og);padding:20px 24px 16px;position:relative;overflow:hidden;}
 .s-header::before{content:'';position:absolute;top:-28px;right:-28px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,0.1);}
@@ -52,8 +43,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
 .h-title{font-size:30px;font-weight:900;color:#fff;letter-spacing:-1.5px;line-height:1.1;position:relative;z-index:2;}
 .h-main-row{display:flex;align-items:flex-end;justify-content:space-between;position:relative;z-index:2;}
 .h-month{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,.35);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:18px;margin-bottom:3px;}
-
-/* 본문 */
 .s-body{padding:16px 20px 20px;}
 .two-col{display:flex;gap:12px;margin-bottom:16px;}
 .card{flex:1;background:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 2px 14px rgba(0,0,0,.07);border:1.5px solid #f0f0f0;}
@@ -63,12 +52,10 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
 .naesin-row{display:flex;align-items:flex-start;gap:7px;margin-bottom:8px;}
 .naesin-chk{width:18px;height:18px;border-radius:50%;flex-shrink:0;margin-top:1px;background:var(--og);display:flex;align-items:center;justify-content:center;}
 .naesin-chk svg{width:10px;height:10px;}
-.naesin-txt{font-size:11.5px;color:var(--text);line-height:1.5;font-weight:500;flex:1;}
+.naesin-txt{font-size:11.5px;color:var(--text);line-height:1.5;font-weight:500;flex:1;border-radius:3px;padding:1px 3px;cursor:text;outline:none;}
 .rules-row{display:flex;align-items:flex-start;gap:7px;margin-bottom:8px;}
 .rules-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);flex-shrink:0;margin-top:6px;}
-.rules-txt{font-size:12.5px;color:#333;line-height:1.65;font-weight:700;}
-
-/* 달력 */
+.rules-txt{font-size:12.5px;color:#333;line-height:1.65;font-weight:700;border-radius:3px;padding:1px 3px;cursor:text;outline:none;}
 .cal-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 14px rgba(0,0,0,.07);border:1.5px solid #f0f0f0;margin-bottom:14px;}
 .cal-hd{padding:11px 16px;display:flex;align-items:center;gap:7px;border-bottom:2px solid #f5f5f5;}
 .cal-hd-title{font-size:13px;font-weight:700;color:var(--text);}
@@ -84,26 +71,22 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
 .cal-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--text);margin-bottom:3px;}
 .cal-num.sun{color:#e74c3c;}.cal-num.sat{color:#3498db;}
 .cal-num.holiday{background:#e74c3c;color:#fff;}
-
-/* 하단 */
 .bottom-row{display:flex;gap:12px;}
 .notice-card{flex:1;background:#FFF5EE;border:1.5px solid #FFD4B0;border-radius:12px;padding:14px 16px;}
 .notice-hd{font-size:13px;font-weight:700;color:var(--og);display:flex;align-items:center;gap:7px;margin-bottom:10px;}
 .notice-item{display:flex;align-items:flex-start;gap:7px;margin-bottom:8px;}
 .notice-dot{color:var(--og);font-size:8px;margin-top:5px;flex-shrink:0;}
-.notice-line-txt{font-size:11.5px;color:#333;line-height:1.6;outline:none;flex:1;}
-.notice-line-txt:focus{border-bottom:1px dashed #FFB07A;}
+.notice-line-txt{font-size:11.5px;color:#333;line-height:1.6;outline:none;flex:1;border-radius:3px;padding:1px 3px;cursor:text;transition:background .15s;}
+.notice-line-txt:hover{background:rgba(255,107,26,.1);}.notice-line-txt:focus{background:rgba(255,107,26,.15);border-bottom:1px dashed #FFB07A;}
 .pay-card{width:220px;flex-shrink:0;background:#fff;border-radius:12px;padding:14px;box-shadow:0 2px 14px rgba(0,0,0,.07);border:1.5px solid #f0f0f0;}
 .pay-hd{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;margin-bottom:10px;}
 .pay-item{display:flex;align-items:flex-start;gap:7px;margin-bottom:8px;line-height:1.6;}
 .pay-badge{background:var(--og);color:#fff;font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:9px;white-space:nowrap;margin-top:2px;flex-shrink:0;}
-.pay-txt{font-size:10.5px;color:#555;outline:none;flex:1;}
-.pay-txt:focus{border-bottom:1px dashed #ddd;}
+.pay-txt{font-size:10.5px;color:#555;outline:none;flex:1;border-radius:3px;padding:1px 3px;cursor:text;transition:background .15s;}
+.pay-txt:hover{background:rgba(255,107,26,.08);}.pay-txt:focus{background:rgba(255,107,26,.12);border-bottom:1px dashed #FFB07A;}
 .s-footer{background:var(--og);padding:11px 20px;display:flex;align-items:center;justify-content:space-between;}
 .s-footer-note{font-size:9.5px;color:rgba(255,255,255,.8);}
 .s-footer-brand{font-size:10.5px;font-weight:700;color:#fff;display:flex;align-items:center;gap:5px;}
-
-/* 안내문 슬라이드 */
 .notice-slide{width:620px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 12px 60px rgba(0,0,0,0.4);}
 .ns-hd{background:var(--og);padding:24px 28px 20px;position:relative;overflow:hidden;text-align:center;}
 .ns-hd::before{content:'';position:absolute;top:-28px;right:-28px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,0.1);}
@@ -111,16 +94,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
 .ns-title{font-size:28px;font-weight:900;color:#fff;letter-spacing:-0.5px;position:relative;z-index:2;}
 .ns-sub{font-size:13px;color:rgba(255,255,255,.82);margin-top:5px;position:relative;z-index:2;}
 .ns-body{padding:20px 24px;display:flex;flex-direction:column;gap:12px;}
-.ns-item{background:#fff;border:1.5px solid #f0f0f0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);}
-.ns-item-hd{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid #f5f5f5;}
-.ns-item-body{padding:14px 18px;display:flex;align-items:flex-start;gap:9px;}
-.ns-item-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:7px;}
-.ns-item-txt{font-size:16px;color:#333;line-height:1.7;font-weight:500;}
 .ns-ft{padding:13px 24px;display:flex;align-items:center;justify-content:space-between;}
 .ns-ft-note{font-size:10px;}
 .ns-ft-brand{font-size:11px;font-weight:700;}
-
-/* 팝업 */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;align-items:center;justify-content:center;}
 .overlay.on{display:flex;}
 .popup{background:#fff;border-radius:18px;padding:20px;width:320px;box-shadow:0 12px 50px rgba(0,0,0,.3);animation:pi .18s ease;}
@@ -132,13 +108,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
 .pop-chip.on{border-color:currentColor;font-weight:900;}
 .pop-custom{display:flex;gap:7px;margin-bottom:12px;align-items:center;}
 .pop-btns{display:flex;gap:7px;justify-content:flex-end;}
-
-/* 저장 버튼 */
 .save-btn{width:100%;padding:13px;background:linear-gradient(135deg,#FF5500,var(--og));color:#fff;border:none;border-radius:12px;font-family:'Noto Sans KR',sans-serif;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(255,107,26,.35);transition:all .2s;}
 .save-btn:hover{transform:translateY(-1px);}
 .save-btn.ok{background:linear-gradient(135deg,#00b894,#00cec9);}
-
-/* 반응형 — 모바일 */
 @media(max-width:900px){
   .lr-wrap{flex-direction:column;align-items:center;}
   .lr-left{width:100%;max-width:680px;}
@@ -158,50 +130,52 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
 <!-- ══ 탭1: 월간 알리미 ══ -->
 <div class="tab-page on" id="tab-alimi">
 <div class="lr-wrap">
-
-  <!-- 왼쪽: 컨트롤 -->
   <div class="lr-left">
-
     <div class="panel">
       <div class="panel-title">⚙️ 기본 정보</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:flex-end;">
         <div><span class="lbl">연도</span>
-          <select id="c-year" class="inp" onchange="renderCal()" style="width:76px;">
+          <select id="c-year" class="inp" onchange="renderCal();saveAll()" style="width:76px;">
             <option value="2025">2025</option><option value="2026">2026</option>
           </select></div>
         <div><span class="lbl">월</span>
-          <select id="c-month" class="inp" onchange="renderCal()" style="width:64px;">
+          <select id="c-month" class="inp" onchange="renderCal();saveAll()" style="width:64px;">
             <option value="1">1월</option><option value="2">2월</option><option value="3">3월</option>
             <option value="4">4월</option><option value="5">5월</option><option value="6">6월</option>
             <option value="7">7월</option><option value="8">8월</option><option value="9">9월</option>
             <option value="10">10월</option><option value="11">11월</option><option value="12">12월</option>
           </select></div>
+        <div style="flex:1;"><span class="lbl">학원명</span>
+          <input id="c-brand" class="inp" value="" placeholder="예) 우리학원" style="width:100%;"
+            oninput="$('s-brand').textContent=this.value;$('s-fbrand').textContent=this.value;saveAll()"></div>
         <div><span class="lbl">🎨 색상</span>
-          <input type="color" id="c-theme" value="#FF6B1A" style="width:40px;height:33px;border:none;border-radius:8px;cursor:pointer;display:block;" oninput="applyTheme(this.value)"></div>
+          <input type="color" id="c-theme" value="#FF6B1A" style="width:40px;height:33px;border:none;border-radius:8px;cursor:pointer;display:block;" oninput="applyTheme(this.value);saveAll()"></div>
       </div>
-      <div style="margin-bottom:7px;"><span class="lbl">헤더 부제 (예: 따뜻하고 책임감 넘치는)</span>
-        <input id="c-hsub" class="inp" value="따뜻하고 책임감 넘치는" style="width:100%;"
-          oninput="$('s-hsub').textContent=this.value"></div>
+      <div style="margin-bottom:7px;"><span class="lbl">전화번호</span>
+        <input id="c-tel" class="inp" value="" placeholder="예) 000-0000-0000" style="width:100%;"
+          oninput="$('s-tel').textContent=this.value;$('s-ftel').textContent=this.value;saveAll()"></div>
+      <div style="margin-bottom:7px;"><span class="lbl">헤더 부제</span>
+        <input id="c-hsub" class="inp" value="" placeholder="예) 따뜻하고 책임감 넘치는" style="width:100%;"
+          oninput="$('s-hsub').textContent=this.value;saveAll()"></div>
       <div><span class="lbl">헤더 메인 타이틀</span>
         <input id="c-htitle" class="inp" value="우리 학원  알리미" style="width:100%;"
-          oninput="$('s-htitle').textContent=this.value"></div>
+          oninput="$('s-htitle').textContent=this.value;saveAll()"></div>
     </div>
 
-    <!-- 글씨 크기 — 위로 -->
     <div class="panel">
-      <div class="panel-title">🔠 글씨 크기 & 글꼴</div>
+      <div class="panel-title">🔠 글씨 크기 &amp; 글꼴</div>
       <div style="display:flex;flex-direction:column;gap:6px;">
         <div class="rw"><span style="font-size:10px;color:#aaa;width:55px;">내신항목</span>
-          <input type="range" id="r-n" min="10" max="16" value="11" oninput="sz('naesin-txt',this.value);$('rv-n').textContent=this.value+'px'">
+          <input type="range" id="r-n" min="10" max="16" value="11" oninput="sz('naesin-txt',this.value);$('rv-n').textContent=this.value+'px';saveAll()">
           <span id="rv-n" class="rv">11px</span></div>
         <div class="rw"><span style="font-size:10px;color:#aaa;width:55px;">지켜주세요</span>
-          <input type="range" id="r-ru" min="10" max="18" value="12" oninput="sz('rules-txt',this.value);$('rv-ru').textContent=this.value+'px'">
+          <input type="range" id="r-ru" min="10" max="18" value="12" oninput="sz('rules-txt',this.value);$('rv-ru').textContent=this.value+'px';saveAll()">
           <span id="rv-ru" class="rv">12px</span></div>
         <div class="rw"><span style="font-size:10px;color:#aaa;width:55px;">달력글씨</span>
-          <input type="range" id="r-c" min="7" max="12" value="9" oninput="renderCal();$('rv-c').textContent=this.value+'px'">
+          <input type="range" id="r-c" min="7" max="12" value="9" oninput="renderCal();$('rv-c').textContent=this.value+'px';saveAll()">
           <span id="rv-c" class="rv">9px</span></div>
         <div class="rw"><span style="font-size:10px;color:#aaa;width:55px;">공지</span>
-          <input type="range" id="r-p" min="10" max="18" value="11" oninput="sz('notice-line-txt',this.value);$('rv-p').textContent=this.value+'px'">
+          <input type="range" id="r-p" min="10" max="18" value="11" oninput="sz('notice-line-txt',this.value);$('rv-p').textContent=this.value+'px';saveAll()">
           <span id="rv-p" class="rv">11px</span></div>
         <div class="rw"><span style="font-size:10px;color:#aaa;width:55px;">글꼴</span>
           <select id="c-font" class="inp" style="font-size:11px;padding:4px 6px;" onchange="applyFont(this.value)">
@@ -252,35 +226,31 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
     <div class="panel">
       <div class="panel-title">📝 하단 안내문</div>
       <input id="c-note" class="inp" value="* 상기 일정은 학원 사정에 따라 변경될 수 있습니다." style="width:100%;font-size:11px;"
-        oninput="$('s-note').textContent=this.value">
+        oninput="$('s-note').textContent=this.value;saveAll()">
     </div>
 
-    <!-- 일정 종류 — 맨 아래 -->
     <div class="panel">
       <div class="panel-title">🎨 일정 종류</div>
       <div id="legend-list"></div>
       <button class="btn bo" onclick="addLegend()" style="font-size:11px;">＋ 종류 추가</button>
     </div>
+  </div>
 
-  </div><!-- /lr-left -->
-
-  <!-- 오른쪽: 슬라이드 + 저장 -->
   <div class="lr-right">
     <div class="slide" id="main-slide">
       <div class="s-header">
         <div class="h-top">
-          <div class="h-brand">wawa. W+. 글로리드</div>
-          <div class="h-tel">수지점 031 297 7001</div>
+          <div class="h-brand" id="s-brand"></div>
+          <div class="h-tel" id="s-tel"></div>
         </div>
         <div class="h-main-row">
           <div>
-            <div class="h-sub" id="s-hsub">따뜻하고 책임감 넘치는</div>
+            <div class="h-sub" id="s-hsub"></div>
             <div class="h-title" id="s-htitle">우리 학원  알리미</div>
           </div>
           <div class="h-month">📅 <span id="s-month">2025년 6월</span></div>
         </div>
       </div>
-
       <div class="s-body">
         <div class="two-col">
           <div class="card">
@@ -288,21 +258,16 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
               <div class="card-hd-icon" style="background:#fff0e6;">📋</div>
               <span class="card-hd-txt" style="color:var(--og);">내신 관리</span>
             </div>
-            <div id="s-naesin">
-              <!-- 슬라이드에서 직접 클릭 수정 가능 -->
-            </div>
+            <div id="s-naesin"></div>
           </div>
-          <div class="card" style="background:#fff;">
+          <div class="card">
             <div class="card-hd">
               <div class="card-hd-icon" style="background:#fff0f7;">⚠️</div>
               <span class="card-hd-txt" style="color:var(--pink);">지켜주세요!</span>
             </div>
-            <div id="s-rules">
-              <!-- 슬라이드에서 직접 클릭 수정 가능 -->
-            </div>
+            <div id="s-rules"></div>
           </div>
         </div>
-
         <div class="cal-card">
           <div class="cal-hd">
             <span style="font-size:14px;">📅</span>
@@ -316,118 +281,108 @@ body{font-family:'Noto Sans KR',sans-serif;background:#1e1e2e;display:flex;flex-
           </div>
           <div class="cal-grid" id="s-cal"></div>
         </div>
-
         <div class="bottom-row">
           <div class="notice-card">
             <div class="notice-hd">📢 이달의 공지</div>
             <div id="s-notice">
-              <div class="notice-item"><span class="notice-dot">●</span><span class="notice-line-txt" contenteditable="true" spellcheck="false">6월 : 시험대비 기간</span></div>
-              <div class="notice-item"><span class="notice-dot">●</span><span class="notice-line-txt" contenteditable="true" spellcheck="false">주말 보강반 운영</span></div>
-              <div class="notice-item"><span class="notice-dot">●</span><span class="notice-line-txt" contenteditable="true" spellcheck="false">각 과목별 보강 일정 확인</span></div>
+              <div class="notice-item"><span class="notice-dot">●</span><span class="notice-line-txt" contenteditable="true" spellcheck="false" onblur="saveAll()">이달의 주요 일정 안내</span></div>
+              <div class="notice-item"><span class="notice-dot">●</span><span class="notice-line-txt" contenteditable="true" spellcheck="false" onblur="saveAll()">공지사항을 입력해 주세요</span></div>
+              <div class="notice-item"><span class="notice-dot">●</span><span class="notice-line-txt" contenteditable="true" spellcheck="false" onblur="saveAll()">수업 일정 변동 사항 안내</span></div>
             </div>
           </div>
           <div class="pay-card">
             <div class="pay-hd">📌 결제 안내</div>
-            <div class="pay-item">
-              <span class="pay-badge">결제</span>
-              <span class="pay-txt" contenteditable="true" spellcheck="false">카카오 알림톡으로 결제 링크를 발송해 드립니다.</span>
-            </div>
-            <div class="pay-item">
-              <span class="pay-badge">문의</span>
-              <span class="pay-txt" contenteditable="true" spellcheck="false">현장 카드 단말기가 없어 현장 결제가 어렵습니다. 가상계좌·분할결제 문의 가능합니다.</span>
-            </div>
-            <div class="pay-item">
-              <span class="pay-badge">지역화폐</span>
-              <span class="pay-txt" contenteditable="true" spellcheck="false">지역화폐 결제는 어렵습니다. 양해 부탁드립니다.</span>
-            </div>
+            <div class="pay-item"><span class="pay-badge">결제</span><span class="pay-txt" contenteditable="true" spellcheck="false" onblur="saveAll()">카카오 알림톡으로 결제 링크를 발송해 드립니다.</span></div>
+            <div class="pay-item"><span class="pay-badge">문의</span><span class="pay-txt" contenteditable="true" spellcheck="false" onblur="saveAll()">현장 카드 단말기가 없어 현장 결제가 어렵습니다. 가상계좌·분할결제 문의 가능합니다.</span></div>
+            <div class="pay-item"><span class="pay-badge">지역화폐</span><span class="pay-txt" contenteditable="true" spellcheck="false" onblur="saveAll()">지역화폐 결제는 어렵습니다. 양해 부탁드립니다.</span></div>
           </div>
         </div>
       </div>
-
       <div class="s-footer">
         <div class="s-footer-note" id="s-note">* 상기 일정은 학원 사정에 따라 변경될 수 있습니다.</div>
         <div class="s-footer-brand">
-          <span>wawa. W+. 글로리드</span>
+          <span id="s-fbrand"></span>
           <span style="color:rgba(255,255,255,.4);">|</span>
-          <span>수지점 031 297 7001</span>
+          <span id="s-ftel"></span>
         </div>
       </div>
     </div>
     <button class="save-btn" id="save-btn" onclick="saveImg()">📥 고화질 이미지 저장</button>
   </div>
-
 </div>
-</div><!-- /tab-alimi -->
+</div>
 
 <!-- ══ 탭2: 안내문 만들기 ══ -->
 <div class="tab-page" id="tab-notice">
 <div class="lr-wrap">
-
-  <!-- 왼쪽: 컨트롤 -->
   <div class="lr-left">
     <div class="panel">
       <div class="panel-title">📢 안내문 설정</div>
       <div style="display:flex;gap:8px;margin-bottom:8px;">
         <div style="flex:1;"><span class="lbl">안내문 제목</span>
-          <input id="n-title" class="inp" value="공휴일 수업 안내" style="width:100%;" oninput="renderNotice()"></div>
+          <input id="n-title" class="inp" value="공지 안내" style="width:100%;" oninput="renderNotice();saveAll()"></div>
         <div><span class="lbl">🎨 테마색</span>
-          <input type="color" id="n-color" value="#FF6B1A" style="width:40px;height:33px;border:none;border-radius:8px;cursor:pointer;display:block;" oninput="renderNotice()"></div>
+          <input type="color" id="n-color" value="#FF6B1A" style="width:40px;height:33px;border:none;border-radius:8px;cursor:pointer;display:block;" oninput="renderNotice();saveAll()"></div>
       </div>
       <div style="margin-bottom:8px;"><span class="lbl">부제</span>
-        <input id="n-sub" class="inp" value="해당 날짜 수업 일정을 안내드립니다" style="width:100%;" oninput="renderNotice()"></div>
+        <input id="n-sub" class="inp" value="해당 날짜 수업 일정을 안내드립니다" style="width:100%;" oninput="renderNotice();saveAll()"></div>
+      <div>
+        <span class="lbl" style="margin-bottom:5px;display:block;">🏷️ 상단 학원명</span>
+        <input id="n-logo-text" class="inp" placeholder="예) 우리학원" style="width:100%;" oninput="renderNotice();saveAll()">
+      </div>
     </div>
-
-    <!-- 글씨 크기 — 위로 -->
     <div class="panel">
       <div class="panel-title">🔠 글씨 크기</div>
       <div style="display:flex;flex-direction:column;gap:6px;">
         <div class="rw"><span style="font-size:10px;color:#aaa;width:55px;">제목</span>
-          <input type="range" id="n-title-sz" min="18" max="42" value="28" oninput="renderNotice();$('n-tsz-v').textContent=this.value+'px'">
+          <input type="range" id="n-title-sz" min="18" max="42" value="28" oninput="renderNotice();$('n-tsz-v').textContent=this.value+'px';saveAll()">
           <span id="n-tsz-v" class="rv">28px</span></div>
         <div class="rw"><span style="font-size:10px;color:#aaa;width:55px;">날짜뱃지</span>
-          <input type="range" id="n-date-sz" min="10" max="24" value="14" oninput="renderNotice();$('n-dsz-v').textContent=this.value+'px'">
+          <input type="range" id="n-date-sz" min="10" max="24" value="14" oninput="renderNotice();$('n-dsz-v').textContent=this.value+'px';saveAll()">
           <span id="n-dsz-v" class="rv">14px</span></div>
         <div class="rw"><span style="font-size:10px;color:#aaa;width:55px;">내용</span>
-          <input type="range" id="n-body-sz" min="12" max="30" value="16" oninput="renderNotice();$('n-bsz-v').textContent=this.value+'px'">
+          <input type="range" id="n-body-sz" min="12" max="30" value="16" oninput="renderNotice();$('n-bsz-v').textContent=this.value+'px';saveAll()">
           <span id="n-bsz-v" class="rv">16px</span></div>
       </div>
     </div>
-
     <div class="panel">
       <div class="panel-title">📋 안내 항목</div>
       <div id="n-items-ctrl"></div>
       <button class="btn bo" onclick="addNItem()" style="margin-top:4px;font-size:11px;">＋ 항목 추가</button>
     </div>
-
     <div class="panel">
       <div class="panel-title">📝 하단 정보</div>
       <div style="margin-bottom:7px;"><span class="lbl">안내문구</span>
-        <input id="n-note" class="inp" value="* 문의사항은 담당 선생님께 연락 주세요." style="width:100%;" oninput="renderNotice()"></div>
+        <input id="n-note" class="inp" value="* 문의사항은 담당 선생님께 연락 주세요." style="width:100%;" oninput="renderNotice();saveAll()"></div>
+      <div style="margin-bottom:7px;"><span class="lbl">학원 이름</span>
+        <input id="n-brand" class="inp" value="" placeholder="예) 우리학원" style="width:100%;" oninput="renderNotice();saveAll()"></div>
+      <div><span class="lbl">전화번호</span>
+        <input id="n-tel" class="inp" value="" placeholder="예) 000-0000-0000" style="width:100%;" oninput="renderNotice();saveAll()"></div>
     </div>
   </div>
-
-  <!-- 오른쪽: 미리보기 + 저장 -->
   <div class="lr-right">
     <div class="notice-slide" id="notice-slide">
       <div class="ns-hd" id="ns-hd">
-        <div class="ns-title" id="ns-title">공휴일 수업 안내</div>
+        <div id="ns-logo-row" style="display:none;align-items:center;gap:5px;margin-bottom:8px;position:relative;z-index:2;">
+          <span id="ns-logo-display" style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.88);"></span>
+        </div>
+        <div class="ns-title" id="ns-title">공지 안내</div>
         <div class="ns-sub" id="ns-sub">해당 날짜 수업 일정을 안내드립니다</div>
       </div>
       <div class="ns-body" id="ns-body"></div>
       <div class="ns-ft" id="ns-ft">
-        <div class="ns-ft-note" id="ns-note" style="font-size:13px;font-weight:700;color:#555;">* 문의사항은 담당 선생님께 연락 주세요.</div>
+        <div class="ns-ft-note" id="ns-note">* 문의사항은 담당 선생님께 연락 주세요.</div>
         <div class="ns-ft-brand" id="ns-ft-brand">
-          <span id="ns-brand-txt">wawa. W+. 글로리드</span>
+          <span id="ns-brand-txt"></span>
           <span style="margin:0 4px;opacity:.5;">|</span>
-          <span id="ns-tel-txt">수지점 031 297 7001</span>
+          <span id="ns-tel-txt"></span>
         </div>
       </div>
     </div>
     <button class="save-btn" id="n-save-btn" onclick="saveNotice()">📥 안내문 이미지 저장</button>
   </div>
-
 </div>
-</div><!-- /tab-notice -->
+</div>
 
 <!-- 팝업 -->
 <div class="overlay" id="overlay" onclick="closeOut(event)">
@@ -453,110 +408,147 @@ const HOLS={
 };
 const $=id=>document.getElementById(id);
 
-// ── 데이터 ──
 let legends=[
-  {id:1,name:'정상수업',color:'#27ae60'},
-  {id:2,name:'보충수업',color:'#e17055'},
-  {id:3,name:'모의고사',color:'#8e44ad'},
-  {id:4,name:'1차 지필',color:'#e74c3c'},
-  {id:5,name:'2차 지필',color:'#c0392b'},
-  {id:6,name:'휴강',color:'#95a5a6'},
+  {id:1,name:'정상수업',color:'#27ae60'},{id:2,name:'보충수업',color:'#e17055'},
+  {id:3,name:'모의고사',color:'#8e44ad'},{id:4,name:'1차 지필',color:'#e74c3c'},
+  {id:5,name:'2차 지필',color:'#c0392b'},{id:6,name:'휴강',color:'#95a5a6'},
   {id:7,name:'학원방학',color:'#2980b9'},
 ];
 let nLeg=8;
-let naesin=['학교 부교재 및 프린트물 챙기기','6월 4일 모의고사','2차 지필평가 대비'];
-let rules=['무단 결석 & 지각 ×','당일 수업조정 ×','보충수업 결석시 추가 보충 ×','→ 아이의 원활한 수업을 위해 미리 수업시간 조율을 부탁드립니다'];
+let naesin=['학교 교재 및 프린트물 챙기기','시험 일정 확인하기','수업 관련 안내 확인'];
+let rules=['무단 결석 & 지각 ×','당일 수업조정 ×','보충수업 결석시 추가 보충 ×','→ 미리 수업시간 조율을 부탁드립니다'];
 let evts={};
 let customHols=[];
 let curDay=null;
-let nItems=[
-  {date:'6월 6일 (금)', content:'현충일 — 수업 없음'},
-  {date:'6월 7일 (토)', content:'보강 수업 진행 (오전 10:00 ~ 12:00)'},
-];
+let nItems=[{date:'날짜 (예: 6월 6일)',content:'일정 내용을 입력하세요'}];
 
-// ── 초기화 ──
-window.onload=()=>{
-  const n=new Date();
-  $('c-year').value=n.getFullYear();
-  $('c-month').value=n.getMonth()+1;
-  renderAll();
-  renderNItemsCtrl();
-  renderNotice();
-};
-function renderAll(){
-  renderNaesinCtrl();renderNaesinSlide();
-  renderRulesCtrl();renderRulesSlide();
-  renderLegendCtrl();renderCal();
+const STORE_KEY='wawa_alimi_v1';
+
+function saveAll(){
+  try{
+    document.querySelectorAll('#s-naesin .naesin-txt').forEach((el,i)=>{if(naesin[i]!==undefined)naesin[i]=el.textContent;});
+    document.querySelectorAll('#s-rules  .rules-txt' ).forEach((el,i)=>{if(rules[i] !==undefined)rules[i] =el.textContent;});
+    const data={
+      brand:$('c-brand').value,tel:$('c-tel').value,
+      hsub:$('c-hsub').value,htitle:$('c-htitle').value,
+      note:$('c-note').value,theme:$('c-theme').value,
+      year:$('c-year').value,month:$('c-month').value,
+      rn:$('r-n').value,rru:$('r-ru').value,rc:$('r-c').value,rp:$('r-p').value,
+      naesin,rules,evts,legends,customHols,
+      holInput:$('hol-input')?$('hol-input').value:'',
+      nItems,
+      sNoticeHTML:$('s-notice').innerHTML,
+      payTxts:Array.from(document.querySelectorAll('.pay-txt')).map(el=>el.innerHTML),
+      nTitle:$('n-title').value,nColor:$('n-color').value,
+      nSub:$('n-sub').value,nNote:$('n-note').value,
+      nBrand:$('n-brand').value,nTel:$('n-tel').value,
+      nLogoText:$('n-logo-text')?$('n-logo-text').value:'',
+      nTitleSz:$('n-title-sz').value,nDateSz:$('n-date-sz').value,nBodySz:$('n-body-sz').value,
+    };
+    localStorage.setItem(STORE_KEY,JSON.stringify(data));
+  }catch(e){console.error('saveAll 오류:',e);}
 }
 
-// ── 탭 ──
+function loadAll(){
+  try{
+    const raw=localStorage.getItem(STORE_KEY);
+    if(!raw)return;
+    const d=JSON.parse(raw);
+    if(d.brand){$('c-brand').value=d.brand;$('s-brand').textContent=d.brand;$('s-fbrand').textContent=d.brand;}
+    if(d.tel){$('c-tel').value=d.tel;$('s-tel').textContent=d.tel;$('s-ftel').textContent=d.tel;}
+    if(d.hsub){$('c-hsub').value=d.hsub;$('s-hsub').textContent=d.hsub;}
+    if(d.htitle){$('c-htitle').value=d.htitle;$('s-htitle').textContent=d.htitle;}
+    if(d.note){$('c-note').value=d.note;$('s-note').textContent=d.note;}
+    if(d.theme){$('c-theme').value=d.theme;applyTheme(d.theme);}
+    if(d.year)$('c-year').value=d.year;
+    if(d.month)$('c-month').value=d.month;
+    if(d.rn){$('r-n').value=d.rn;sz('naesin-txt',d.rn);$('rv-n').textContent=d.rn+'px';}
+    if(d.rru){$('r-ru').value=d.rru;sz('rules-txt',d.rru);$('rv-ru').textContent=d.rru+'px';}
+    if(d.rc){$('r-c').value=d.rc;$('rv-c').textContent=d.rc+'px';}
+    if(d.rp){$('r-p').value=d.rp;sz('notice-line-txt',d.rp);$('rv-p').textContent=d.rp+'px';}
+    if(Array.isArray(d.naesin)&&d.naesin.length)naesin=d.naesin;
+    if(Array.isArray(d.rules)&&d.rules.length)rules=d.rules;
+    if(d.evts&&typeof d.evts==='object')evts=d.evts;
+    if(Array.isArray(d.legends)&&d.legends.length)legends=d.legends;
+    if(Array.isArray(d.customHols))customHols=d.customHols;
+    if(d.holInput&&$('hol-input'))$('hol-input').value=d.holInput;
+    if(Array.isArray(d.nItems)&&d.nItems.length)nItems=d.nItems;
+    if(d.sNoticeHTML)$('s-notice').innerHTML=d.sNoticeHTML;
+    if(Array.isArray(d.payTxts))document.querySelectorAll('.pay-txt').forEach((el,i)=>{if(d.payTxts[i]!==undefined)el.innerHTML=d.payTxts[i];});
+    if(d.nTitle)$('n-title').value=d.nTitle;
+    if(d.nColor)$('n-color').value=d.nColor;
+    if(d.nSub)$('n-sub').value=d.nSub;
+    if(d.nNote)$('n-note').value=d.nNote;
+    if(d.nBrand!==undefined)$('n-brand').value=d.nBrand;
+    if(d.nTel!==undefined)$('n-tel').value=d.nTel;
+    if(d.nLogoText!==undefined&&$('n-logo-text'))$('n-logo-text').value=d.nLogoText;
+    if(d.nTitleSz){$('n-title-sz').value=d.nTitleSz;$('n-tsz-v').textContent=d.nTitleSz+'px';}
+    if(d.nDateSz){$('n-date-sz').value=d.nDateSz;$('n-dsz-v').textContent=d.nDateSz+'px';}
+    if(d.nBodySz){$('n-body-sz').value=d.nBodySz;$('n-bsz-v').textContent=d.nBodySz+'px';}
+    if(d.nBrand!==undefined&&$('ns-brand-txt'))$('ns-brand-txt').textContent=d.nBrand;
+    if(d.nTel!==undefined&&$('ns-tel-txt'))$('ns-tel-txt').textContent=d.nTel;
+  }catch(e){console.error('loadAll 오류:',e);}
+}
+
+window.onload=()=>{
+  const n=new Date();
+  loadAll();
+  if(!$('c-year').value)$('c-year').value=n.getFullYear();
+  if(!$('c-month').value)$('c-month').value=n.getMonth()+1;
+  renderAll();renderNItemsCtrl();renderNotice();
+};
+function renderAll(){renderNaesinSlide();renderRulesSlide();renderLegendCtrl();renderCal();}
 function switchTab(name,el){
   document.querySelectorAll('.tab-page').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
-  $('tab-'+name).classList.add('on');
-  el.classList.add('on');
+  $('tab-'+name).classList.add('on');el.classList.add('on');
 }
 
-// ── 내신 ──
-function renderNaesinCtrl(){ /* 패널 목록 없음 — 슬라이드에서 직접 수정 */ }
-function addNaesin(){naesin.push('새 항목');renderNaesinCtrl();renderNaesinSlide();}
-function delNaesin(i){naesin.splice(i,1);renderNaesinCtrl();renderNaesinSlide();}
+function addNaesin(){naesin.push('새 항목');renderNaesinSlide();saveAll();}
+function delNaesin(i){naesin.splice(i,1);renderNaesinSlide();saveAll();}
 function renderNaesinSlide(){
   const s=$('r-n').value;
   $('s-naesin').innerHTML=naesin.map((t,i)=>`
     <div class="naesin-row">
       <div class="naesin-chk"><svg viewBox="0 0 11 11" fill="none"><path d="M2 5.5l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <span class="naesin-txt" style="font-size:${s}px;" contenteditable="true" spellcheck="false"
-        onblur="naesin[${i}]=this.textContent;syncNaesinCtrl()">${t}</span>
+        onblur="naesin[${i}]=this.textContent;saveAll()">${t}</span>
     </div>`).join('');
 }
-function syncNaesinCtrl(){
-  // 슬라이드 수정 → 컨트롤 패널 동기화
-  document.querySelectorAll('#s-naesin .naesin-txt').forEach((el,i)=>{naesin[i]=el.textContent;});
-  renderNaesinCtrl();
-}
 
-// ── 지켜주세요 ──
-function renderRulesCtrl(){ /* 패널 목록 없음 — 슬라이드에서 직접 수정 */ }
-function addRule(){rules.push('새 항목');renderRulesCtrl();renderRulesSlide();}
-function delRule(i){rules.splice(i,1);renderRulesCtrl();renderRulesSlide();}
+function addRule(){rules.push('새 항목');renderRulesSlide();saveAll();}
+function delRule(i){rules.splice(i,1);renderRulesSlide();saveAll();}
 function renderRulesSlide(){
   const s=$('r-ru').value;
   $('s-rules').innerHTML=rules.map((t,i)=>{
     const isArrow=t.startsWith('→');
     return isArrow
-      ? `<div class="rules-row"><span class="rules-txt" style="font-size:${s}px;padding-left:13px;" contenteditable="true" spellcheck="false" onblur="rules[${i}]=this.textContent;syncRulesCtrl()">${t}</span></div>`
-      : `<div class="rules-row"><div class="rules-dot"></div><span class="rules-txt" style="font-size:${s}px;" contenteditable="true" spellcheck="false" onblur="rules[${i}]=this.textContent;syncRulesCtrl()">${t}</span></div>`;
+      ?`<div class="rules-row"><span class="rules-txt" style="font-size:${s}px;padding-left:13px;" contenteditable="true" spellcheck="false" onblur="rules[${i}]=this.textContent;saveAll()">${t}</span></div>`
+      :`<div class="rules-row"><div class="rules-dot"></div><span class="rules-txt" style="font-size:${s}px;" contenteditable="true" spellcheck="false" onblur="rules[${i}]=this.textContent;saveAll()">${t}</span></div>`;
   }).join('');
 }
-function syncRulesCtrl(){
-  document.querySelectorAll('#s-rules .rules-txt').forEach((el,i)=>{rules[i]=el.textContent;});
-  renderRulesCtrl();
-}
 
-// ── 범례 ──
 function renderLegendCtrl(){
   $('legend-list').innerHTML=legends.map((l,i)=>`
     <div class="li">
       <input type="color" value="${l.color}" style="width:28px;height:26px;border:none;border-radius:5px;cursor:pointer;"
-        oninput="legends[${i}].color=this.value;renderCal()">
+        oninput="legends[${i}].color=this.value;renderCal();saveAll()">
       <input class="inp" style="flex:1;font-size:11px;" value="${l.name}"
-        oninput="legends[${i}].name=this.value">
-      <button class="btn br" style="font-size:10px;padding:4px 8px;" onclick="delLeg(${i})">✕</button></div>`).join('');
+        oninput="legends[${i}].name=this.value;saveAll()">
+      <button class="btn br" style="font-size:10px;padding:4px 8px;" onclick="delLeg(${i})">✕</button>
+    </div>`).join('');
 }
-function addLegend(){legends.push({id:nLeg++,name:'새 일정',color:'#FF6B1A'});renderLegendCtrl();}
-function delLeg(i){legends.splice(i,1);renderLegendCtrl();renderCal();}
+function addLegend(){legends.push({id:nLeg++,name:'새 일정',color:'#FF6B1A'});renderLegendCtrl();saveAll();}
+function delLeg(i){legends.splice(i,1);renderLegendCtrl();renderCal();saveAll();}
 
-// ── 공휴일 ──
-function applyCustomHols(){customHols=$('hol-input').value.split(',').map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)&&n>0&&n<=31);renderCal();}
-function clearCustomHols(){customHols=[];$('hol-input').value='';renderCal();}
+function applyCustomHols(){customHols=$('hol-input').value.split(',').map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)&&n>0&&n<=31);renderCal();saveAll();}
+function clearCustomHols(){customHols=[];$('hol-input').value='';renderCal();saveAll();}
 
-// ── 달력 ──
 function renderCal(){
   const yr=+$('c-year').value,mo=+$('c-month').value;
   $('s-month').textContent=yr+'년 '+mo+'월';
   $('s-cal-title').textContent=yr+'년 '+mo+'월 수업 일정표';
-  const autoH=(HOLS[yr]||[]).map(d=>{const p=d.split('-');return +p[1]===mo?+p[2]:null;}).filter(n=>n!==null);
+  const autoH=(HOLS[yr]||[]).map(d=>{const p=d.split('-');return+p[1]===mo?+p[2]:null;}).filter(n=>n!==null);
   const hols=[...new Set([...autoH,...customHols])];
   const fd=new Date(yr,mo-1,1).getDay();
   const dm=new Date(yr,mo,0).getDate();
@@ -571,16 +563,13 @@ function renderCal(){
     const dow=(fd+d-1)%7;
     const isSun=dow===0,isSat=dow===6,isHol=hols.includes(d);
     let nc='cal-num';
-    if(isHol)nc+=' holiday';
-    else if(isSun)nc+=' sun';
-    else if(isSat)nc+=' sat';
+    if(isHol)nc+=' holiday';else if(isSun)nc+=' sun';else if(isSat)nc+=' sat';
     const chips=(evts[d]||[]).map(e=>`<span style="display:block;background:${e.color}28;color:${e.color};border-radius:4px;padding:2px 4px;font-size:${sz}px;font-weight:700;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:2px;">${e.text}</span>`).join('');
     html+=`<div class="cal-cell" onclick="openPop(${d})"><div class="${nc}">${d}</div>${chips}</div>`;
   });
   $('s-cal').innerHTML=html;
 }
 
-// ── 팝업 ──
 function openPop(d){curDay=d;const mo=+$('c-month').value;$('pop-hd').textContent=`📅 ${mo}월 ${d}일`;renderPopChips();$('pop-txt').value='';$('overlay').classList.add('on');}
 function renderPopChips(){
   const ex=evts[curDay]||[];
@@ -597,14 +586,12 @@ function toggleChip(name,color,el){
 }
 function applyPop(){const t=$('pop-txt').value.trim(),c=$('pop-clr').value;if(t){if(!evts[curDay])evts[curDay]=[];evts[curDay].push({text:t,color:c});}closePop();renderCal();}
 function clearDay(){evts[curDay]=[];closePop();renderCal();}
-function closePop(){$('overlay').classList.remove('on');}
+function closePop(){$('overlay').classList.remove('on');saveAll();}
 function closeOut(e){if(e.target===$('overlay'))closePop();}
 
-// ── 공지 ──
-function addNotice(){const w=$('s-notice');const s=$('r-p').value;const d=document.createElement('div');d.className='notice-item';d.innerHTML=`<span class="notice-dot">●</span><span class="notice-line-txt" contenteditable="true" spellcheck="false" style="font-size:${s}px;">새 공지 내용</span>`;w.appendChild(d);d.querySelector('.notice-line-txt').focus();}
-function delNotice(){const w=$('s-notice');if(w.children.length>1)w.removeChild(w.lastElementChild);}
+function addNotice(){const w=$('s-notice');const s=$('r-p').value;const d=document.createElement('div');d.className='notice-item';d.innerHTML=`<span class="notice-dot">●</span><span class="notice-line-txt" contenteditable="true" spellcheck="false" style="font-size:${s}px;" onblur="saveAll()">새 공지 내용</span>`;w.appendChild(d);d.querySelector('.notice-line-txt').focus();}
+function delNotice(){const w=$('s-notice');if(w.children.length>1){w.removeChild(w.lastElementChild);saveAll();}}
 
-// ── 스타일 ──
 function sz(cls,v){document.querySelectorAll('.'+cls).forEach(el=>el.style.fontSize=v+'px');}
 function applyFont(f){$('main-slide').style.fontFamily=f;}
 function applyTheme(color){
@@ -620,7 +607,6 @@ function applyTheme(color){
   renderCal();
 }
 
-// ── 알리미 저장 ──
 async function saveImg(){
   const btn=$('save-btn');
   const ces=[];document.querySelectorAll('[contenteditable]').forEach(el=>{ces.push(el);el.removeAttribute('contenteditable');});
@@ -628,26 +614,32 @@ async function saveImg(){
   try{
     const c=await html2canvas($('main-slide'),{scale:3,useCORS:true,allowTaint:true,backgroundColor:'#fff',logging:false});
     const yr=$('c-year').value,mo=$('c-month').value;
-    c.toBlob(blob=>{const a=document.createElement('a');a.download=`우리학원알리미_${yr}년_${mo}월.png`;a.href=URL.createObjectURL(blob);a.click();btn.textContent='✅ 저장 완료!';btn.classList.add('ok');setTimeout(()=>{btn.textContent='📥 고화질 이미지 저장';btn.classList.remove('ok');btn.disabled=false;},3000);},'image/png');
+    c.toBlob(blob=>{
+      const a=document.createElement('a');
+      a.download=`학원알리미_${yr}년_${mo}월.png`;
+      a.href=URL.createObjectURL(blob);a.click();
+      btn.textContent='✅ 저장 완료!';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent='📥 고화질 이미지 저장';btn.classList.remove('ok');btn.disabled=false;},3000);
+    },'image/png');
   }catch(e){btn.textContent='❌ 오류';btn.disabled=false;}
   ces.forEach(el=>el.setAttribute('contenteditable','true'));
 }
 
-// ── 안내문 ──
-function addNItem(){nItems.push({date:'날짜',content:'내용'});renderNItemsCtrl();renderNotice();}
-function delNItem(i){nItems.splice(i,1);renderNItemsCtrl();renderNotice();}
+function addNItem(){nItems.push({date:'날짜',content:'내용'});renderNItemsCtrl();renderNotice();saveAll();}
+function delNItem(i){nItems.splice(i,1);renderNItemsCtrl();renderNotice();saveAll();}
 function renderNItemsCtrl(){
   $('n-items-ctrl').innerHTML=nItems.map((item,i)=>`
     <div class="li" style="margin-bottom:7px;align-items:flex-start;">
       <div style="display:flex;flex-direction:column;gap:4px;flex:1;">
         <input class="inp" placeholder="날짜" value="${item.date}" style="width:100%;font-size:11px;"
-          oninput="nItems[${i}].date=this.value;renderNotice()">
+          oninput="nItems[${i}].date=this.value;renderNotice();saveAll()">
         <input class="inp" placeholder="내용" value="${item.content}" style="width:100%;font-size:11px;"
-          oninput="nItems[${i}].content=this.value;renderNotice()">
+          oninput="nItems[${i}].content=this.value;renderNotice();saveAll()">
       </div>
       <button class="btn br" style="font-size:10px;padding:4px 8px;margin-top:2px;" onclick="delNItem(${i})">✕</button>
     </div>`).join('');
 }
+
 function renderNotice(){
   const color=$('n-color').value;
   const titleSz=$('n-title-sz').value+'px';
@@ -656,20 +648,20 @@ function renderNotice(){
   const r=parseInt(color.slice(1,3),16),g=parseInt(color.slice(3,5),16),b=parseInt(color.slice(5,7),16);
   const lightBg=`rgba(${r},${g},${b},0.08)`;
   const borderClr=`rgba(${r},${g},${b},0.2)`;
-
-  // 로고 행 숨김 (수지점 전용 — 로고 선택 없음)
+  const logoText=$('n-logo-text')?$('n-logo-text').value.trim():'';
+  $('ns-logo-display').textContent=logoText;
+  $('ns-logo-row').style.display=logoText?'flex':'none';
   $('ns-hd').style.background=color;
   $('ns-title').textContent=$('n-title').value;
   $('ns-title').style.fontSize=titleSz;
   $('ns-sub').textContent=$('n-sub').value;
   $('ns-note').textContent=$('n-note').value;
-  $('ns-note').style.color=`rgba(${r},${g},${b},0.9)`;
+  $('ns-note').style.color=`rgba(${r},${g},${b},0.85)`;
   $('ns-ft').style.background=lightBg;
   $('ns-ft').style.borderTop=`2px solid ${borderClr}`;
   $('ns-ft-brand').style.color=color;
-  $('ns-brand-txt').textContent='wawa. W+. 글로리드';
-  $('ns-tel-txt').textContent='수지점 031 297 7001';
-
+  $('ns-brand-txt').textContent=$('n-brand').value;
+  $('ns-tel-txt').textContent=$('n-tel').value;
   $('ns-body').innerHTML=nItems.map(item=>`
     <div style="background:#fff;border:1.5px solid #f0f0f0;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05);">
       <div style="background:${lightBg};border-bottom:1.5px solid ${borderClr};padding:12px 20px;display:flex;align-items:center;justify-content:center;">
@@ -681,19 +673,13 @@ function renderNotice(){
     </div>`).join('');
 }
 
-// ── 안내문 저장 ──
 async function saveNotice(){
   const btn=$('n-save-btn');
   btn.textContent='⏳ 렌더링 중...';btn.disabled=true;
-  // 렌더 완료 대기
   await new Promise(r=>setTimeout(r,300));
   try{
     const slide=$('notice-slide');
-    const c=await html2canvas(slide,{
-      scale:3,useCORS:true,allowTaint:true,
-      backgroundColor:'#fff',logging:false,
-      width:slide.scrollWidth,height:slide.scrollHeight
-    });
+    const c=await html2canvas(slide,{scale:3,useCORS:true,allowTaint:true,backgroundColor:'#fff',logging:false,width:slide.scrollWidth,height:slide.scrollHeight});
     c.toBlob(blob=>{
       const a=document.createElement('a');
       a.download=`안내문_${$('n-title').value}.png`;
