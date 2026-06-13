@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학원 안내 도구</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--theme-color:#FF6B1A;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans KR',sans-serif;background:#e0e0e0;min-height:100vh;padding:0;}
+.tab-nav{display:flex;background:#fff;border-bottom:2px solid #FFD4B0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+.tab-btn{flex:1;padding:14px 8px;font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;border:none;background:transparent;color:#999;cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;}
+.tab-btn.active{color:#FF6B1A;border-bottom-color:#FF6B1A;}
+.tab-btn:hover:not(.active){color:#FF8C42;background:#FFF5EE;}
+.tab-btn.external{color:#5B67CA;}
+.tab-btn.external:hover{color:#7B87EA;background:#F0F1FF;}
+.tab-panel{display:none;padding:20px;justify-content:center;}
+.tab-panel.active{display:flex;flex-direction:column;align-items:center;gap:12px;}
+.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,0.12);}
+.header{background:linear-gradient(135deg,#FF6B1A,#FF8C42);padding:22px 24px 18px;position:relative;overflow:hidden;}
+.header::before{content:"";position:absolute;top:-28px;right:-28px;width:120px;height:120px;background:rgba(255,255,255,0.1);border-radius:50%;}
+.header::after{content:"";position:absolute;bottom:-18px;left:28px;width:80px;height:80px;background:rgba(255,255,255,0.07);border-radius:50%;}
+.logo-row{display:flex;align-items:center;gap:5px;margin-bottom:7px;}
+.logo-text{font-size:13px;font-weight:700;color:rgba(255,255,255,0.92);}
+.header-title{font-size:20px;font-weight:900;color:#fff;}
+.header-badge{display:inline-block;background:rgba(255,255,255,0.2);color:#fff;font-size:10px;font-weight:600;padding:3px 11px;border-radius:20px;margin-top:6px;}
+.cols{display:flex;align-items:stretch;}
+.col-l{border-right:1.5px solid #FFE8D6;padding:16px 18px 20px;}
+.col-r{padding:16px 18px 20px;}
+.section{margin-bottom:11px;}
+.sec-title{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.sec-num{width:19px;height:19px;background:var(--theme-color);color:#fff;border-radius:50%;font-size:8.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sec-label{font-size:11.5px;font-weight:700;color:#222;line-height:1.4;}
+.items{padding-left:25px;display:flex;flex-direction:column;gap:3px;}
+.item{font-size:10px;color:#555;line-height:1.65;position:relative;padding-left:9px;}
+.item::before{content:"·";position:absolute;left:0;color:var(--theme-color);font-weight:700;}
+.hl-box{background:#FFF5EE;border-left:3px solid var(--theme-color);border-radius:0 7px 7px 0;padding:7px 10px;margin-left:25px;margin-top:4px;}
+.hl-box p{font-size:10px;color:var(--theme-color);font-weight:700;line-height:1.6;}
+.divider{height:1px;background:linear-gradient(to right,#FFD4B0,transparent);margin:9px 0;}
+.rule-list{padding-left:25px;display:flex;flex-direction:column;gap:5px;}
+.rule-item{background:#FAFAFA;border-radius:7px;padding:7px 9px;}
+.rule-title{font-size:10.5px;font-weight:700;color:#333;margin-bottom:2px;}
+.rule-desc{font-size:9.5px;color:#666;line-height:1.6;}
+.process-box{margin-left:25px;background:linear-gradient(135deg,#FFF5EE,#fff);border:1px solid #FFD4B0;border-radius:9px;padding:9px 11px;}
+.p-row{display:flex;align-items:flex-start;gap:6px;font-size:10px;color:#444;margin-bottom:5px;line-height:1.5;}
+.p-row:last-child{margin-bottom:0;}
+.p-badge{background:var(--theme-color);color:#fff;font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:20px;white-space:nowrap;margin-top:1px;}
+.refund-table{margin-top:4px;border-radius:7px;overflow:hidden;border:1px solid #eee;width:100%;}
+.r-row{display:flex;font-size:9.5px;}
+.r-row:not(:last-child){border-bottom:1px solid #eee;}
+.r-row.rh{background:var(--theme-color);font-weight:700;}
+.r-cell{padding:5px 7px;flex:1;color:#444;line-height:1.4;}
+.r-cell:first-child{flex:1.3;border-right:1px solid #eee;}
+.r-row.rh .r-cell{color:#fff;border-right-color:rgba(255,255,255,0.3);}
+.r-row:nth-child(even){background:#FAFAFA;}
+.faq-list{display:flex;flex-direction:column;gap:5px;}
+.faq-item{background:#FAFAFA;border-radius:7px;padding:7px 9px;border-left:3px solid var(--theme-color);}
+.faq-q{font-size:10px;font-weight:700;color:var(--theme-color);margin-bottom:2px;line-height:1.5;}
+.faq-a{font-size:9.5px;color:#555;line-height:1.6;}
+.alimtok-section{margin-top:10px;}
+.alimtok-label{font-size:10px;font-weight:700;color:#888;margin-bottom:8px;text-align:center;padding-bottom:5px;border-bottom:1px dashed #FFD4B0;}
+/* 알림톡 붙여넣기 존 */
+.alimtok-paste-zone{border:2px dashed #FFD4B0;border-radius:10px;background:#FFFAF7;cursor:pointer;transition:border-color .2s,background .2s;outline:none;position:relative;}
+.alimtok-paste-zone:hover,.alimtok-paste-zone:focus{border-color:#FF6B1A;background:#FFF5EE;}
+.alimtok-paste-zone.drag-over{border-color:#FF6B1A!important;background:#FFF0E6!important;border-style:solid!important;}
+.alimtok-paste-empty{padding:24px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none;}
+.sched-layout{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:820px;}
+.sched-col-left{display:flex;flex-direction:column;gap:12px;width:390px;}
+.sched-col-right{display:flex;flex-direction:column;align-items:center;}
+@media(min-width:860px){
+  .sched-layout{flex-direction:row;align-items:flex-start;justify-content:center;gap:24px;}
+  .sched-col-left{width:390px;flex-shrink:0;}
+  .sched-col-right{flex-shrink:0;}
+}
+.sched-box{background:#fff;border-radius:16px;padding:18px;box-shadow:0 4px 20px rgba(0,0,0,0.10);display:flex;flex-direction:column;gap:12px;}
+.sched-box-title{font-size:13px;font-weight:700;color:var(--theme-color);border-bottom:2px solid #FFE8D6;padding-bottom:8px;}
+.inp-label{font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:4px;}
+.inp-field{width:100%;padding:9px 11px;border:1.5px solid #FFD4B0;border-radius:9px;font-family:'Noto Sans KR',sans-serif;font-size:13px;outline:none;}
+.inp-field:focus{border-color:#FF6B1A;}
+.total-box{background:#FFF5EE;border:1.5px solid #FFD4B0;border-radius:10px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;}
+.sms-textarea{width:100%;height:210px;border:1.5px solid #FFE8D6;border-radius:10px;padding:12px;font-family:'Noto Sans KR',sans-serif;font-size:12.5px;line-height:1.8;color:#333;background:#FAFAFA;resize:none;outline:none;}
+.sched-body{padding:14px 16px 18px;}
+.sch-header{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+.sch-icon{width:24px;height:24px;background:var(--theme-color);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;}
+.sch-label{font-size:13px;font-weight:700;color:#222;}
+.sch-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:10px;overflow:hidden;border:1.5px solid var(--theme-color);}
+.sch-table thead tr{background:linear-gradient(135deg,#FF6B1A,#FF8C42);}
+.sch-table thead th{padding:9px 6px;font-size:11px;font-weight:700;color:#fff;text-align:center;}
+.sch-table thead th:not(:last-child){border-right:1px solid rgba(255,255,255,0.25);}
+.sch-table tbody tr:nth-child(even){background:#FFF9F5;}
+.sch-table tbody tr{border-bottom:1px solid #FFE8D6;}
+.sch-table tbody tr:last-child{border-bottom:none;}
+.sch-table tbody td{padding:10px 6px;text-align:center;font-size:11.5px;color:#444;vertical-align:middle;}
+.sch-table tbody td:not(:last-child){border-right:1px solid #FFE8D6;}
+.day-badge{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--theme-color);color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;}
+.subj-tag{display:inline-block;background:#FFF0E6;color:var(--theme-color);font-weight:700;font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid var(--theme-color);}
+.notice-box{background:#FFF5EE;border-radius:10px;padding:11px 13px;margin-top:12px;border:1px solid var(--theme-color);}
+.notice-title{font-size:11px;font-weight:700;color:var(--theme-color);margin-bottom:5px;}
+.notice-item-sched{font-size:10.5px;color:#666;line-height:1.7;padding-left:9px;position:relative;margin-bottom:2px;}
+.notice-item-sched::before{content:"·";position:absolute;left:0;color:var(--theme-color);font-weight:700;}
+.footer{background:linear-gradient(135deg,#FF6B1A,#FF8C42);padding:13px 22px;text-align:center;}
+.footer p{color:#fff;font-size:10.5px;line-height:1.8;}
+.footer .tel{font-size:13px;font-weight:900;}
+[contenteditable="true"]{outline:none;cursor:text;border-radius:3px;transition:background 0.15s;}
+[contenteditable="true"]:hover{background:rgba(255,107,26,0.08);}
+[contenteditable="true"]:focus{background:rgba(255,107,26,0.13);box-shadow:0 0 0 1.5px rgba(255,107,26,0.35);}
+.row-btn{flex:1;padding:8px;font-family:"Noto Sans KR",sans-serif;font-size:11px;font-weight:700;border-radius:8px;border:none;cursor:pointer;}
+.row-btn:active{opacity:0.75;}
+.add-btn{background:#FFF0E6;color:#FF6B1A;border:1.5px solid #FFD4B0;}
+.del-btn{background:#FFF0E6;color:#CC4400;border:1.5px solid #FFBBA0;}
+.save-btn{width:100%;max-width:860px;padding:14px;font-family:"Noto Sans KR",sans-serif;font-size:14px;font-weight:700;background:linear-gradient(135deg,#FF6B1A,#FF8C42);color:#fff;border:none;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(255,107,26,0.3);transition:opacity 0.2s,transform 0.1s;}
+.save-btn:active{opacity:0.85;transform:scale(0.98);}
+.save-btn.ok{background:linear-gradient(135deg,#34C759,#30B350);}
+/* 변경이력 */
+#log-fab{position:fixed;bottom:22px;right:22px;width:52px;height:52px;border-radius:50%;background:#FF6B1A;color:#fff;font-size:22px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(255,107,26,.45);z-index:9000;display:flex;align-items:center;justify-content:center;transition:transform .15s;}
+#log-fab:hover{transform:scale(1.1);}
+#log-badge{position:absolute;top:-4px;right:-4px;background:#e74c3c;color:#fff;font-size:9px;font-weight:700;border-radius:10px;padding:1px 5px;display:none;}
+#log-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;align-items:center;justify-content:center;}
+#log-modal.open{display:flex;}
+#log-box{background:#fff;border-radius:18px;width:min(680px,96vw);max-height:82vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.3);}
+#log-head{padding:16px 20px;border-bottom:2px solid #fff0e8;display:flex;align-items:center;justify-content:space-between;}
+#log-head h2{font-size:15px;font-weight:700;color:#FF6B1A;}
+#log-filters{display:flex;gap:6px;padding:10px 16px;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;}
+.log-filter-btn{padding:4px 10px;border:1.5px solid #e0e0e0;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;background:#fff;color:#888;transition:all .15s;}
+.log-filter-btn.on{background:#FF6B1A;color:#fff;border-color:#FF6B1A;}
+#log-list{overflow-y:auto;flex:1;padding:10px 16px;display:flex;flex-direction:column;gap:8px;}
+.log-item{border:1.5px solid #f0f0f0;border-radius:12px;padding:10px 14px;font-size:12px;}
+.log-item:hover{border-color:#ffd4b0;background:#fffaf7;}
+.log-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.log-tag{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;color:#fff;}
+.log-time{font-size:10px;color:#bbb;margin-left:auto;}
+.log-action{font-size:11px;color:#555;font-weight:700;}
+.log-diff{display:flex;flex-direction:column;gap:3px;margin-top:4px;}
+.log-before{background:#fff0f0;border-radius:6px;padding:4px 8px;color:#c0392b;font-size:11px;}
+.log-after{background:#f0fff4;border-radius:6px;padding:4px 8px;color:#27ae60;font-size:11px;}
+.log-single{background:#f5f5f5;border-radius:6px;padding:4px 8px;color:#555;font-size:11px;}
+#log-empty{text-align:center;padding:40px;color:#bbb;font-size:13px;}
+#log-foot{padding:10px 16px;border-top:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;}
+#log-foot span{font-size:11px;color:#bbb;}
+#log-clear-btn{padding:5px 12px;border:1.5px solid #ffb3b3;border-radius:8px;background:#fff;color:#e74c3c;font-size:11px;font-weight:700;cursor:pointer;}
+#log-clear-btn:hover{background:#fff0f0;}
+
+/* ── 랜딩 페이지 ── */
+#landingPage{display:flex;flex-direction:column;align-items:center;min-height:100vh;background:linear-gradient(135deg,#fff5ee 0%,#fff 60%);padding:0 0 40px;}
+.landing-header{width:100%;background:linear-gradient(90deg,#FF6B1A,#FF8C42);padding:32px 24px 24px;text-align:center;color:#fff;}
+.landing-logo{font-size:26px;font-weight:900;letter-spacing:-1px;margin-bottom:6px;}
+.landing-sub{font-size:13px;opacity:.85;line-height:1.6;}
+.landing-body{width:100%;max-width:480px;padding:24px 20px 0;}
+.feature-card{background:#fff;border-radius:16px;padding:18px 20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.07);border:1px solid #FFE8D6;}
+.feature-title{font-size:14px;font-weight:800;color:#FF6B1A;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.feature-desc{font-size:12.5px;color:#666;line-height:1.7;}
+.demo-card{background:#fff8f5;border:2px solid #FF6B1A;border-radius:16px;padding:18px 20px;margin-bottom:14px;}
+.demo-title{font-size:13px;font-weight:800;color:#FF6B1A;margin-bottom:10px;}
+.demo-item{font-size:12px;color:#555;line-height:1.9;padding-left:4px;}
+.demo-item::before{content:'✔ ';}
+.btn-demo{width:100%;padding:16px;background:linear-gradient(90deg,#FF6B1A,#FF8C42);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;margin-bottom:12px;box-shadow:0 4px 14px rgba(255,107,26,.3);letter-spacing:-0.5px;}
+.btn-demo:active{transform:scale(.98);}
+.btn-kakao{width:100%;padding:14px;background:#FEE500;color:#3C1E1E;border:none;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.notice-card{background:#f8f8f8;border-radius:14px;padding:16px 18px;margin-bottom:14px;font-size:11.5px;color:#888;line-height:1.8;}
+.notice-card b{color:#555;}
+/* ── 워터마크 ── */
+#demoBadge{position:fixed;top:66px;right:10px;background:#FF6B1A;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;z-index:9999;pointer-events:none;}
+</style>
+</head>
+<body>
+
+<!-- ══ 랜딩 페이지 ══ -->
+<div id="landingPage">
+  <div class="landing-header">
+    <div class="landing-logo">🏫 학원 운영 통합 프로그램</div>
+    <div class="landing-sub">수업 준비에 집중할 수 있도록<br>반복 업무를 자동화했습니다</div>
+  </div>
+  <div class="landing-body">
+
+    <div style="height:20px"></div>
+
+    <div class="feature-card">
+      <div class="feature-title">📅 시간표 &amp; 수업 안내문</div>
+      <div class="feature-desc">학생별 시간표 이미지 자동 생성, 교육비 납부 안내 문자, 수업 안내문 이미지를 클릭 한 번으로 만들어드립니다.</div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-title">📸 알리미 이미지</div>
+      <div class="feature-desc">수업 관련 안내 이미지를 간편하게 제작합니다. 매번 직접 만드는 번거로움 없이 빠르게 완성됩니다.</div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-title">📝 월간 평가서</div>
+      <div class="feature-desc">학생별 월간 학습 레포트를 작성하고 이미지로 저장합니다. 깔끔하고 가독성 높은 평가서를 자동으로 완성합니다.</div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-title">👥 원생 관리</div>
+      <div class="feature-desc">원생 명단, 성적, 휴회 이력, 변경 이력을 한 곳에서 관리합니다. 매번 엑셀을 수정하는 번거로움을 없앴습니다.</div>
+    </div>
+
+    <div class="demo-card">
+      <div class="demo-title">🎯 체험판 안내</div>
+      <div class="demo-item">누구나 무료로 체험 가능합니다</div>
+      <div class="demo-item">브라우저를 닫으면 데이터가 초기화됩니다</div>
+      <div class="demo-item">이미지에 체험판 워터마크가 표시됩니다</div>
+      <div class="demo-item">오류·개선사항은 아래 오픈톡으로 알려주세요</div>
+    </div>
+
+    <button class="btn-demo" onclick="enterDemo()">🚀 체험하기</button>
+
+    <button class="btn-kakao" onclick="window.open('https://open.kakao.com/o/gBvK2izi','_blank')">
+      <span style="font-size:18px">💬</span> 오류신고 &amp; 문의사항
+    </button>
+
+    <div class="notice-card">
+      <b>[정식 버전 안내]</b><br>
+      구매자 구글 계정에 직접 설치해드립니다.<br>
+      초기 설정 · 백업 · 복구 기능 포함<br>
+      구매 후 1개월 오류 수정 지원<br><br>
+      <b>[유의사항]</b><br>
+      1개 지점 라이선스 기준 · 재배포 및 무단 공유 금지<br>
+      기능 추가 및 커스텀 수정은 별도 협의
+    </div>
+
+  </div>
+</div><!-- /landingPage -->
+
+
+<!-- 탭 네비 (결제 안내 제거) -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('sched')">📅 시간표</button>
+  <button class="tab-btn"        onclick="switchTab('guide')">📋 수업 안내문</button>
+  <button class="tab-btn"        onclick="switchTab('alimi')">📸 이미지</button>
+  <button class="tab-btn external" onclick="openLink('https://ijungde.github.io/-/?demo')">📝 평가서</button>
+  <button class="tab-btn external" onclick="openLink('https://ijungde.github.io/manager/?demo')">👥 원생관리</button>
+</div>
+
+<!-- ══ 탭1: 시간표 ══ -->
+<div id="mainContent" style="display:none"><div class="tab-panel active" id="tab-sched">
+  <div class="sched-layout">
+    <div class="sched-col-left">
+      <div class="sched-box">
+        <div class="sched-box-title">✏️ 정보 입력</div>
+        <div style="display:flex;gap:8px;">
+          <div style="flex:1;">
+            <label class="inp-label">지점명 (비워두면 미표시)</label>
+            <input id="inp-branch" type="text" placeholder="예) 00지점" oninput="updateBranch();saveData()" class="inp-field" style="width:100%;"/>
+            <div id="branch-preview" style="display:none;margin-top:4px;padding:4px 8px;background:#FFF5EE;border-radius:6px;font-size:11px;font-weight:700;color:#FF6B1A;border:1px solid #FFD4B0;">📍 <span id="branch-preview-txt"></span></div>
+          </div>
+          <div style="flex:1;">
+            <label class="inp-label">전화번호 (비워두면 미표시)</label>
+            <input id="inp-tel" type="text" placeholder="예) 000-0000-0000" oninput="updateBranch();saveData()" class="inp-field" style="width:100%;"/>
+            <div id="tel-preview" style="display:none;margin-top:4px;padding:4px 8px;background:#FFF5EE;border-radius:6px;font-size:11px;font-weight:700;color:#FF6B1A;border:1px solid #FFD4B0;">📞 <span id="tel-preview-txt"></span></div>
+          </div>
+        </div>
+        <div>
+          <label class="inp-label">🏷️ 상단 학원명 (로고 영역)</label>
+          <input id="inp-logo-text" type="text" placeholder="예) 우리학원" oninput="updateLogo();saveData()" class="inp-field" style="width:100%;"/>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <div style="flex:1;">
+            <label class="inp-label">학생 이름</label>
+            <input id="inp-name" type="text" placeholder="예) 홍길동" oninput="buildPreview();buildSms();saveData()" class="inp-field"/>
+          </div>
+          <div style="width:100px;">
+            <label class="inp-label">결제일 (숫자)</label>
+            <input id="inp-paydate" type="number" placeholder="10" value="10" min="1" max="31" oninput="buildSms();saveData()" class="inp-field" style="width:100%;"/>
+          </div>
+        </div>
+        <div>
+          <label class="inp-label">과목별 수업 요일 &amp; 원비</label>
+          <div id="subjectList" style="display:flex;flex-direction:column;gap:7px;"></div>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button onclick="addSubject()" class="row-btn add-btn">＋ 과목 추가</button>
+            <button onclick="delSubject()" class="row-btn del-btn">－ 마지막 삭제</button>
+          </div>
+        </div>
+        <div class="total-box">
+          <span style="font-size:12px;font-weight:700;color:#FF6B1A;">💰 총 합산</span>
+          <span id="totalAmount" style="font-size:16px;font-weight:900;color:#FF6B1A;">0원</span>
+        </div>
+        <div>
+          <label class="inp-label">🎨 테마 색상</label>
+          <input type="color" id="inp-theme" value="#FF6B1A" style="width:100%;height:34px;border:none;border-radius:9px;cursor:pointer;display:block;" oninput="applySchedTheme(this.value);saveData()"/>
+        </div>
+      </div>
+      <div class="sched-box">
+        <div class="sched-box-title">📨 교육비 납부 안내 문자 <span style="font-size:10px;color:#aaa;font-weight:400;">(직접 수정 가능)</span></div>
+        <textarea id="smsPreview" class="sms-textarea" style="background:#fff;cursor:text;" spellcheck="false" oninput="saveData()"></textarea>
+        <div style="margin-top:6px;font-size:11px;color:#bbb;text-align:center;">내용 수정 후 📨 문자 복사 버튼으로 복사하세요</div>
+        <div style="margin-top:10px;">
+          <label class="inp-label">📝 하단 고정 안내 문구 (수정 가능)</label>
+          <textarea id="inp-sms-footer" class="inp-field" style="height:80px;font-size:12px;line-height:1.7;resize:none;"
+            oninput="buildSms();saveData()">카톡으로 알림톡 결제링크 발송드리고 있습니다.
+가상계좌 / 분할결제 필요하시거나
+카톡 못 받으신 경우 말씀해주시면 감사하겠습니다!^^
+
+소중한 아이 맡겨주셔서 감사합니다!</textarea>
+        </div>
+      </div>
+    </div>
+    <div class="sched-col-right">
+      <div class="card" id="card-sched" style="width:390px;">
+        <div class="header" style="padding:26px 24px 22px;">
+          <div class="logo-row" id="logo-row-sched" style="display:none;">
+            <span class="logo-text" id="logo-display-s"></span>
+          </div>
+          <div style="margin-top:10px;margin-bottom:4px;">
+            <span id="schedNameDisplay" style="font-size:22px;font-weight:900;color:rgba(255,255,255,0.5);">이름</span>
+            <span style="font-size:22px;font-weight:900;color:#fff;white-space:nowrap;"> 수업 시간표</span>
+          </div>
+          <div class="header-badge" style="margin-top:8px;">💛 소중한 아이를 맡겨주셔서 감사합니다</div>
+        </div>
+        <div class="sched-body">
+          <div class="sch-header">
+            <div class="sch-icon">📅</div>
+            <div class="sch-label" id="schedLabel">수업 시간표</div>
+          </div>
+          <table class="sch-table">
+            <thead><tr><th>과목</th><th>수업 요일</th></tr></thead>
+            <tbody id="schedBody"></tbody>
+          </table>
+          <div class="notice-box" style="margin-top:12px;">
+            <div class="notice-title">📌 수업 관련 안내</div>
+            <div class="notice-item-sched">결석·지각 시 담당 선생님께 미리 연락해 주세요</div>
+          </div>
+        </div>
+        <div class="footer" id="footer-sched" style="display:none;">
+          <p id="footer-sched-txt"></p>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;width:390px;margin-top:10px;">
+        <button class="save-btn" id="btn-sched" onclick="capture('card-sched','btn-sched','시간표')" style="border-radius:14px;font-size:13px;">📋 이미지 복사</button>
+        <button class="save-btn" id="btn-sms-main" onclick="copySms()" style="border-radius:14px;font-size:13px;background:linear-gradient(135deg,#5B67CA,#7B87EA);box-shadow:0 4px 16px rgba(91,103,202,0.35);">📨 문자 복사</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 탭2: 수업 안내문 ══ -->
+<div class="tab-panel" id="tab-guide">
+  <div class="card" id="card-guide" style="width:520px;">
+    <div class="header">
+      <div class="logo-row" id="logo-row-guide" style="display:none;">
+        <span class="logo-text" id="logo-display-g"></span>
+      </div>
+      <div class="header-title">수강 안내문</div>
+      <div class="header-badge">📋 등원 전 꼭 확인해 주세요</div>
+    </div>
+    <div style="padding:16px 18px 20px;">
+        <div class="section">
+          <div class="sec-title"><div class="sec-num">1</div><div class="sec-label" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','섹션 제목')" data-ce-id="ce001">수업은 <span style="color:#FF6B1A">한 달</span> 단위로 진행됩니다</div></div>
+          <div class="items"><div class="item" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','수업규정 항목')" data-ce-id="ce003">매월 입회일이 수업 회비일입니다</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+          <div class="sec-title"><div class="sec-num">2</div><div class="sec-label" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','섹션 제목')" data-ce-id="ce004">당일 취소·결강은 보강이 되지 않습니다</div></div>
+          <div class="items">
+            <div class="item" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','수업규정 항목')" data-ce-id="ce006">수업 변동사항은 미리 말씀해 주시면 상의 가능합니다</div>
+            <div class="item" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','수업규정 항목')" data-ce-id="ce007">교사 사정(워크샵·세미나 등)으로 결강 시 보강을 원칙으로 합니다</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+          <div class="sec-title"><div class="sec-num">3</div><div class="sec-label" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','섹션 제목')" data-ce-id="ce008"><span style="color:#FF6B1A">공휴일·국경일</span>은 수업하지 않습니다</div></div>
+          <div class="items">
+            <div class="item" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','수업규정 항목')" data-ce-id="ce010">공휴일에 진행되는 수업에 대한 결석은 따로 보강이 어렵습니다</div>
+            <div class="item" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','수업규정 항목')" data-ce-id="ce011">불가피한 경우, 담당 교사와 학생 상의 하에 보강 가능합니다</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+          <div class="sec-title"><div class="sec-num">4</div><div class="sec-label" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','섹션 제목')" data-ce-id="ce012">수업은 정해진 시간에 도착해 주세요</div></div>
+          <div class="items">
+            <div class="item" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','수업규정 항목')" data-ce-id="ce014">무단 지각 등 사전 상의 없이 늦게 등원하는 경우 보충이 이루어지지 않을 수 있습니다</div>
+            <div class="item" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','수업규정 항목')" data-ce-id="ce015">늦을 경우 담당 선생님께 꼭 연락 주세요</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+          <div class="sec-title"><div class="sec-num">5</div><div class="sec-label" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','섹션 제목')" data-ce-id="ce016">수업 변동사항 안내</div></div>
+          <div class="hl-box"><p contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','강조 박스')" data-ce-id="ce017">⚠️ 다음 달 시작일 포함 <strong>10일 전까지</strong> 담당 선생님께 알려주세요</p></div>
+          <div class="items" style="margin-top:5px">
+            <div class="item" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','수업규정 항목')" data-ce-id="ce019">변동사항이 10일 전 처리 안 되면 접수 불가하여 회원이나 교사에게 금전적 책임이 발생합니다</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+          <div class="sec-title"><div class="sec-num">6</div><div class="sec-label" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','섹션 제목')" data-ce-id="ce020">센터 수업 시 <span style="color:#FF6B1A">학생 준수 사항</span></div></div>
+          <div class="rule-list">
+            <div class="rule-item"><div class="rule-title" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','준수사항 제목')" data-ce-id="ce022">① 센터 입·퇴실</div><div class="rule-desc" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','준수사항 내용')" data-ce-id="ce023">무단 지각·결석, 학사 일정 무단 결정 금지</div></div>
+            <div class="rule-item"><div class="rule-title" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','준수사항 제목')" data-ce-id="ce025">② 센터 공공시설</div><div class="rule-desc" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','준수사항 내용')" data-ce-id="ce026">게시물 파손·낙서 금지 / 기물 파손 금지</div></div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+          <div class="sec-title"><div class="sec-num" style="font-size:8px;width:21px;height:21px;">★</div><div class="sec-label" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','섹션 제목')" data-ce-id="ce027">반복 시 조치 사항</div></div>
+          <div class="process-box">
+            <div class="p-row"><span class="p-badge">1단계</span><span contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','조치사항 내용')" data-ce-id="ce028">담당 교사 및 원장선생님의 구두 경고</span></div>
+            <div class="p-row"><span class="p-badge">2단계</span><span contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','조치사항 내용')" data-ce-id="ce029">여러 번 반복 시 부모님 상담 진행</span></div>
+            <div class="p-row"><span class="p-badge">3단계</span><span contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','조치사항 내용')" data-ce-id="ce030">개선의 여지가 없을 경우 퇴원 조치</span></div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+          <div class="sec-title"><div class="sec-num">7</div><div class="sec-label" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','섹션 제목')" data-ce-id="ce031">학원법에 따른 환불 규정</div></div>
+          <div class="refund-table">
+            <div class="r-row rh"><div class="r-cell">환불 시점</div><div class="r-cell">환불 금액</div></div>
+            <div class="r-row"><div class="r-cell" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','환불규정')" data-ce-id="ce032">교습 시작 전</div><div class="r-cell" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','환불규정')" data-ce-id="ce033">전액 환불</div></div>
+            <div class="r-row"><div class="r-cell" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','환불규정')" data-ce-id="ce034">1/3 경과 전</div><div class="r-cell" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','환불규정')" data-ce-id="ce035">2/3 금액 환불</div></div>
+            <div class="r-row"><div class="r-cell" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','환불규정')" data-ce-id="ce036">1/2 경과 전</div><div class="r-cell" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','환불규정')" data-ce-id="ce037">1/2 금액 환불</div></div>
+            <div class="r-row"><div class="r-cell" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','환불규정')" data-ce-id="ce038">1/2 경과 후</div><div class="r-cell" contenteditable="true" onfocus="ceFocus(this)" onblur="ceBlur(this,'guide','환불규정')" data-ce-id="ce039">환불 불가</div></div>
+          </div>
+        </div>
+      </div>
+    <div class="footer" id="footer-guide" style="display:none;">
+      <p id="footer-guide-txt"></p>
+    </div>
+  </div>
+  <button class="save-btn" id="btn-guide" onclick="capture('card-guide','btn-guide','수업안내문')" style="border-radius:14px;margin-top:10px;max-width:520px;">📋 이미지 복사하기</button>
+</div>
+
+<!-- ══ 탭3: 이미지 ══ -->
+<div class="tab-panel" id="tab-alimi">
+  <div style="width:100%;max-width:1200px;">
+    <iframe src="https://ijungde.github.io/wawa_alimi.html" id="alimi-iframe"
+      style="width:100%;height:95vh;min-height:700px;border:none;border-radius:16px;box-shadow:0 6px 30px rgba(0,0,0,0.15);display:block;"
+      scrolling="auto"></iframe>
+  </div>
+</div>
+</div><!-- /mainContent -->
+
+<script>
+let subjects=[{name:'',days:'',fee:0}];
+
+function renderSubjectList(){
+  const list=document.getElementById('subjectList');
+  list.innerHTML='';
+  subjects.forEach((s,i)=>{
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;gap:6px;align-items:center;';
+    row.innerHTML=`
+      <input type="text" placeholder="과목명" value="${s.name}"
+        oninput="subjects[${i}].name=this.value;buildPreview();buildSms();saveData()"
+        style="width:70px;padding:8px 9px;border:1.5px solid #FFD4B0;border-radius:8px;font-family:'Noto Sans KR',sans-serif;font-size:12px;outline:none;"/>
+      <input type="text" placeholder="요일 예)월·수·금" value="${s.days}"
+        oninput="subjects[${i}].days=this.value;buildPreview();buildSms();saveData()"
+        style="flex:1;padding:8px 9px;border:1.5px solid #FFD4B0;border-radius:8px;font-family:'Noto Sans KR',sans-serif;font-size:12px;outline:none;"/>
+      <input type="number" placeholder="원비" value="${s.fee||''}"
+        oninput="subjects[${i}].fee=Number(this.value)||0;calcTotal();buildSms();saveData()"
+        style="width:90px;padding:8px 9px;border:1.5px solid #FFD4B0;border-radius:8px;font-family:'Noto Sans KR',sans-serif;font-size:12px;outline:none;text-align:right;"/>
+      <span style="font-size:11px;color:#999;">원</span>`;
+    list.appendChild(row);
+  });
+  buildPreview();calcTotal();buildSms();
+}
+function addSubject(){subjects.push({name:'',days:'',fee:0});renderSubjectList();}
+function delSubject(){if(subjects.length>1){subjects.pop();renderSubjectList();}}
+function calcTotal(){const t=subjects.reduce((s,x)=>s+(x.fee||0),0);document.getElementById('totalAmount').textContent=t.toLocaleString()+'원';}
+
+function buildPreview(){
+  const name=document.getElementById('inp-name').value.trim();
+  const disp=document.getElementById('schedNameDisplay');
+  if(disp){disp.textContent=name||'이름';disp.style.color=name?'#fff':'rgba(255,255,255,0.5)';}
+  const lbl=document.getElementById('schedLabel');
+  if(lbl)lbl.textContent=name?name+' 수업 시간표':'수업 시간표';
+  const tb=document.getElementById('schedBody');
+  tb.innerHTML='';
+  subjects.forEach(s=>{
+    const tr=document.createElement('tr');
+    const dayStr=s.days.trim();
+    const badges=dayStr?dayStr.split(/[·\s,\/]+/).filter(Boolean).map(d=>`<span class="day-badge" style="margin:1px;">${d}</span>`).join(''):'<span style="color:#ccc;font-size:10px;">미입력</span>';
+    tr.innerHTML=`<td><span class="subj-tag">${s.name||'-'}</span></td><td style="line-height:2;">${badges}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+function buildSms(){
+  const name=document.getElementById('inp-name').value.trim()||'○○○';
+  const paydateRaw=document.getElementById('inp-paydate').value.trim();
+  const paydate=paydateRaw?(/^\d+$/.test(paydateRaw)?paydateRaw+'일':paydateRaw):'10일';
+  const branch=(document.getElementById('inp-branch').value||'').trim();
+  const total=subjects.reduce((s,x)=>s+(x.fee||0),0);
+  const subjectLines=subjects.filter(s=>s.name).map(s=>`${s.name} ${(s.fee||0).toLocaleString()}원`).join('\n');
+  const totalLine=subjects.filter(s=>s.name).length>1?`\n합계 : ${total.toLocaleString()}원`:'';
+  const header=branch?`[${branch} 교육비 납부 안내]`:`[학원 교육비 납부 안내]`;
+  const footerMsg=(document.getElementById('inp-sms-footer')||{value:''}).value;
+  const sms=`${header}
+
+이름 : ${name}
+과목 :
+${subjectLines}${totalLine}
+
+결제일 : ${paydate}
+
+${footerMsg}`;
+  const ta=document.getElementById('smsPreview');
+  if(document.activeElement!==ta)ta.value=sms;
+}
+
+function updateLogo(){
+  const text=(document.getElementById('inp-logo-text')||{value:''}).value.trim();
+  [['logo-display-s','logo-row-sched'],['logo-display-g','logo-row-guide']].forEach(([sid,rid])=>{
+    const span=document.getElementById(sid);
+    const row=document.getElementById(rid);
+    if(span)span.textContent=text;
+    if(row)row.style.display=text?'flex':'none';
+  });
+}
+
+function updateBranch(){
+  const branch=(document.getElementById('inp-branch').value||'').trim();
+  const tel=(document.getElementById('inp-tel').value||'').trim();
+  const hide=!branch&&!tel;
+  ['footer-sched','footer-guide'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.style.display=hide?'none':'';
+  });
+  if(!hide){
+    const telSpan=tel?`<span class="tel">${tel}</span>`:'';
+    const sep=branch&&tel?'&nbsp;&nbsp;':'';
+    const branchStyle=!tel&&branch?`<strong style="font-size:1.25em;">${branch}</strong>`:(branch?`<strong>${branch}</strong>`:'');
+    const simple=branchStyle+sep+telSpan;
+    const withEmoji='소중한 아이를 맡겨주셔서 감사합니다 🙏&nbsp;&nbsp;'+branchStyle+sep+telSpan;
+    const fS=document.getElementById('footer-sched-txt');
+    const fG=document.getElementById('footer-guide-txt');
+    if(fS)fS.innerHTML=simple;
+    if(fG)fG.innerHTML=withEmoji;
+  }
+  buildSms();
+  const b2=(document.getElementById('inp-branch').value||'').trim();
+  const t2=(document.getElementById('inp-tel').value||'').trim();
+  const bpDiv=document.getElementById('branch-preview');
+  const tpDiv=document.getElementById('tel-preview');
+  if(bpDiv){bpDiv.style.display=b2?'':'none';const bt=document.getElementById('branch-preview-txt');if(bt)bt.textContent=b2;}
+  if(tpDiv){tpDiv.style.display=t2?'':'none';const tt=document.getElementById('tel-preview-txt');if(tt)tt.textContent=t2;}
+}
+
+function applySchedTheme(color){
+  const c2=color+'cc';const c3=color+'22';
+  document.documentElement.style.setProperty('--theme-color',color);
+  document.querySelectorAll('.header').forEach(el=>el.style.background=`linear-gradient(135deg,${color},${c2})`);
+  document.querySelectorAll('.footer').forEach(el=>el.style.background=`linear-gradient(135deg,${color},${c2})`);
+  document.querySelectorAll('.sch-table thead tr').forEach(el=>el.style.background=`linear-gradient(135deg,${color},${c2})`);
+  document.querySelectorAll('.sch-table').forEach(el=>el.style.borderColor=color);
+  document.querySelectorAll('.r-row.rh').forEach(el=>el.style.background=color);
+  document.querySelectorAll('.notice-box').forEach(el=>{el.style.background=c3;el.style.borderColor=color;});
+  document.querySelectorAll('#btn-sched,#btn-guide').forEach(el=>el.style.background=`linear-gradient(135deg,${color},${c2})`);
+}
+
+function copySms(){
+  const ta=document.getElementById('smsPreview');
+  const btn=document.getElementById('btn-sms-main');
+  navigator.clipboard.writeText(ta.value).then(()=>{
+    btn.textContent='✅ 복사 완료! 카톡에 붙여넣기 하세요';
+    btn.style.background='linear-gradient(135deg,#34C759,#30B350)';
+    setTimeout(()=>{btn.textContent='📨 문자 복사';btn.style.background='linear-gradient(135deg,#5B67CA,#7B87EA)';},3000);
+  }).catch(()=>{ta.select();document.execCommand('copy');btn.textContent='✅ 복사됨!';setTimeout(()=>{btn.textContent='📨 문자 복사';},3000);});
+}
+
+function openLink(url){window.open(url,'_blank');}
+
+// ── 데모 모드 ──
+var isDemo = true; // 체험판은 항상 데모
+
+function enterDemo(){
+  document.getElementById('landingPage').style.display='none';
+  var tabBar = document.querySelector('.tab-bar');
+  if(tabBar) tabBar.style.display='flex';
+  var mainContent = document.getElementById('mainContent');
+  if(mainContent) mainContent.style.display='block';
+  var b=document.getElementById('demoBadge');
+  if(b) b.style.display='block';
+  // 데모모드: localStorage 초기화 (기존 데이터 안 보이게)
+  try{ localStorage.clear(); }catch(e){}
+  // 첫 탭 활성화
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  var firstTab = document.getElementById('tab-sched');
+  if(firstTab) firstTab.classList.add('active');
+  var firstBtn = document.querySelector('.tab-btn');
+  if(firstBtn) firstBtn.classList.add('active');
+}
+
+function switchTab(name){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  // event가 있을 때만 active 추가
+  if(typeof event !== 'undefined' && event && event.target){
+    event.target.classList.add('active');
+  }
+}
+
+async function capture(cardId,btnId,name){
+  // 랜딩 페이지가 열려있으면 먼저 체험 모드로 진입
+  var landing = document.getElementById('landingPage');
+  if(landing && landing.style.display !== 'none') { enterDemo(); }
+  const btn=document.getElementById(btnId);
+  const card=document.getElementById(cardId);
+  document.activeElement.blur();
+  btn.textContent='⏳ 변환 중...';btn.disabled=true;
+  try{
+    const canvas=await html2canvas(card,{scale:3,useCORS:true,backgroundColor:'#ffffff',logging:false,allowTaint:true});
+    // 데모 워터마크 추가
+    if(isDemo){
+      const ctx=canvas.getContext('2d');
+      const w=canvas.width, h=canvas.height;
+      ctx.save();
+      ctx.globalAlpha=0.25;
+      ctx.fillStyle='#FF6B1A';
+      ctx.font='bold '+Math.round(w*0.12)+'px Noto Sans KR,sans-serif';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.translate(w/2,h/2);
+      ctx.rotate(-Math.PI/4);
+      ctx.fillText('체험판',0,-h*0.15);
+      ctx.fillText('DEMO',0,h*0.15);
+      ctx.restore();
+    }
+    const blob=await new Promise(res=>canvas.toBlob(res,'image/png'));
+    let copied=false;
+    try{await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);copied=true;}catch(e){}
+    if(copied){btn.textContent='✅ 복사 완료! 카톡에 붙여넣기 하세요';}
+    else{
+      const w=window.open('');
+      if(w){const url=URL.createObjectURL(blob);w.document.write(`<html><body style="margin:0;background:#222;display:flex;flex-direction:column;align-items:center;padding:16px;gap:12px;"><p style="color:#fff;font-family:sans-serif;font-size:14px;">📱 이미지를 <b>길게 눌러</b> 저장 후 카톡으로 전송하세요</p><img src="${url}" style="max-width:100%;border-radius:8px;"/><div id="demoBadge" style="display:none">체험판</div>
+</body></html>`);btn.textContent='✅ 새 탭에서 저장하세요';}
+      else{const a=document.createElement('a');a.download='학원안내_'+name+'.png';a.href=canvas.toDataURL('image/png');a.click();btn.textContent='💾 저장 완료!';}
+    }
+    btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='📋 이미지 복사하기';btn.classList.remove('ok');btn.disabled=false;},3500);
+  }catch(e){btn.textContent='❌ 오류 발생';btn.disabled=false;}
+}
+
+// ── localStorage ──
+function isStorageAvailable(){try{const t='__t__';localStorage.setItem(t,t);localStorage.removeItem(t);return true;}catch(e){return false;}}
+let _warnShown=false;
+
+function saveData(){
+  if(isDemo) return; // 데모모드: 저장 안 함
+  try{
+    if(!isStorageAvailable()){if(!_warnShown){_warnShown=true;alert('⚠️ 브라우저 설정에 의해 데이터 저장이 차단되어 있습니다.');}return;}
+    const ceData={};
+    document.querySelectorAll('[data-ce-id]').forEach(el=>{ceData[el.dataset.ceId]=el.innerHTML;});
+    const data={
+      branch:document.getElementById('inp-branch').value,
+      tel:document.getElementById('inp-tel').value,
+      name:document.getElementById('inp-name').value,
+      paydate:document.getElementById('inp-paydate').value,
+      theme:document.getElementById('inp-theme').value,
+      logoText:document.getElementById('inp-logo-text')?document.getElementById('inp-logo-text').value:'',
+      smsContent:document.getElementById('smsPreview').value,
+      smsFooter:document.getElementById('inp-sms-footer')?document.getElementById('inp-sms-footer').value:'',
+      subjects,ceData
+    };
+    localStorage.setItem('wawa_data',JSON.stringify(data));
+  }catch(e){console.error('저장 오류:',e);}
+}
+
+function loadData(){
+  if(!isStorageAvailable())return;
+  try{
+    const raw=localStorage.getItem('wawa_data');
+    if(!raw)return;
+    const d=JSON.parse(raw);
+    if(d.branch)document.getElementById('inp-branch').value=d.branch;
+    if(d.tel)document.getElementById('inp-tel').value=d.tel;
+    if(d.name)document.getElementById('inp-name').value=d.name;
+    if(d.paydate)document.getElementById('inp-paydate').value=d.paydate;
+    if(d.theme){document.getElementById('inp-theme').value=d.theme;applySchedTheme(d.theme);}
+    if(d.logoText!==undefined){const el=document.getElementById('inp-logo-text');if(el)el.value=d.logoText;}
+    if(Array.isArray(d.subjects)&&d.subjects.length)subjects=d.subjects;
+    if(d.smsFooter!==undefined){const el=document.getElementById('inp-sms-footer');if(el)el.value=d.smsFooter;}
+    if(d.smsContent)document.getElementById('smsPreview').value=d.smsContent;
+    updateLogo();updateBranch();
+    if(d.ceData&&typeof d.ceData==='object'){
+      document.querySelectorAll('[data-ce-id]').forEach(el=>{const sv=d.ceData[el.dataset.ceId];if(sv!==undefined)el.innerHTML=sv;});
+    }
+  }catch(e){}
+}
+
+// ── 알림톡 이미지 붙여넣기/드롭/파일 ──
+function handleAlimtokDrop(event,zone){
+  event.preventDefault();
+  const file=(event.dataTransfer.files||[])[0];
+  if(file&&file.type.startsWith('image/'))setAlimtokImage(file,zone);
+  const z=document.getElementById('alimtok-zone-'+zone);
+  if(z)z.classList.remove('drag-over');
+}
+function handleAlimtokFile(event,zone){
+  const file=event.target.files[0];
+  if(file)setAlimtokImage(file,zone);
+  event.target.value='';
+}
+function setAlimtokImage(file,zone){
+  const reader=new FileReader();
+  reader.onload=e=>{
+    showAlimtokImage(e.target.result,zone);
+    try{localStorage.setItem('alimtok_'+zone,e.target.result);}catch(err){}
+  };
+  reader.readAsDataURL(file);
+}
+function showAlimtokImage(src,zone){
+  const imgEl=document.getElementById('alimtok-src-'+zone);
+  const imgDiv=document.getElementById('alimtok-img-'+zone);
+  const emptyDiv=document.getElementById('alimtok-empty-'+zone);
+  if(imgEl)imgEl.src=src;
+  if(imgDiv)imgDiv.style.display='block';
+  if(emptyDiv)emptyDiv.style.display='none';
+}
+function clearAlimtok(event,zone){
+  event.stopPropagation();
+  const imgEl=document.getElementById('alimtok-src-'+zone);
+  const imgDiv=document.getElementById('alimtok-img-'+zone);
+  const emptyDiv=document.getElementById('alimtok-empty-'+zone);
+  if(imgEl)imgEl.src='';
+  if(imgDiv)imgDiv.style.display='none';
+  if(emptyDiv)emptyDiv.style.display='flex';
+  try{localStorage.removeItem('alimtok_'+zone);}catch(err){}
+}
+
+// ── 변경 이력 ──
+const CARD_LOG_KEY='wawa_card_logs';const CARD_LOG_LIMIT=300;let _cardLogFilter='all';
+const CARD_SECTION_META={guide:{label:'수업안내문',color:'#2980b9',emoji:'📋'}};
+function getCardLogs(){try{return JSON.parse(localStorage.getItem(CARD_LOG_KEY)||'[]');}catch(e){return[];}}
+function saveCardLogs(arr){try{localStorage.setItem(CARD_LOG_KEY,JSON.stringify(arr));}catch(e){}}
+function pushCardLog(section,action,detail){const logs=getCardLogs();logs.unshift({id:Date.now(),ts:new Date().toISOString(),section,action,detail});if(logs.length>CARD_LOG_LIMIT)logs.length=CARD_LOG_LIMIT;saveCardLogs(logs);updateCardLogBadge();}
+function fmtTs(iso){const d=new Date(iso),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'.'+p(d.getMonth()+1)+'.'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());}
+function updateCardLogBadge(){const badge=document.getElementById('log-badge');if(!badge)return;const logs=getCardLogs();if(logs.length>0){badge.textContent=logs.length>99?'99+':logs.length;badge.style.display='block';}else badge.style.display='none';}
+function setLogFilter(f,el){_cardLogFilter=f;document.querySelectorAll('.log-filter-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');renderCardLogList();}
+function renderCardLogList(){
+  const logs=getCardLogs().filter(l=>_cardLogFilter==='all'||l.section===_cardLogFilter);
+  const list=document.getElementById('log-list');const countTxt=document.getElementById('log-count-txt');
+  if(!list)return;
+  if(logs.length===0){list.innerHTML='<div id="log-empty">아직 변경 이력이 없습니다 ✨</div>';if(countTxt)countTxt.textContent='';return;}
+  if(countTxt)countTxt.textContent='총 '+logs.length+'건';
+  list.innerHTML=logs.map(l=>{const m=CARD_SECTION_META[l.section]||CARD_SECTION_META.guide;const hasDiff=l.detail&&(l.detail.before!==undefined||l.detail.after!==undefined);const diffHtml=hasDiff?'<div class="log-diff">'+(l.detail.before!==undefined?'<div class="log-before">이전: '+l.detail.before+'</div>':'')+(l.detail.after!==undefined?'<div class="log-after">이후: '+l.detail.after+'</div>':'')+'</div>':(l.detail&&l.detail.text?'<div class="log-diff"><div class="log-single">'+l.detail.text+'</div></div>':'');return '<div class="log-item"><div class="log-meta"><span class="log-tag" style="background:'+m.color+'">'+m.emoji+' '+m.label+'</span><span class="log-action">'+l.action+'</span><span class="log-time">'+fmtTs(l.ts)+'</span></div>'+diffHtml+'</div>';}).join('');
+}
+function openLogModal(){renderCardLogList();document.getElementById('log-modal').classList.add('open');}
+function closeLogModal(){document.getElementById('log-modal').classList.remove('open');}
+function clearLogs(){if(!confirm('변경 이력을 모두 삭제할까요?'))return;saveCardLogs([]);updateCardLogBadge();renderCardLogList();}
+let _ceSnap='';
+function ceFocus(el){_ceSnap=el.innerText.trim();}
+function ceBlur(el,section,label){const after=el.innerText.trim();if(after!==_ceSnap)pushCardLog(section,label+' 수정',{before:_ceSnap,after});saveData();_ceSnap='';}
+
+// 초기화
+loadData();
+['guide'].forEach(zone=>{
+  try{const sv=localStorage.getItem('alimtok_'+zone);if(sv)showAlimtokImage(sv,zone);}catch(e){}
+});
+renderSubjectList();
+updateCardLogBadge();
+// 전역 Ctrl+V 붙여넣기 — 수업안내문 탭 활성 시 자동 적용
+document.addEventListener('paste',function(e){
+  const ap=document.querySelector('.tab-panel.active');
+  if(!ap||ap.id!=='tab-guide')return;
+  const items=(e.clipboardData||{}).items||[];
+  for(const item of Array.from(items)){
+    if(item.type.startsWith('image/')){e.preventDefault();setAlimtokImage(item.getAsFile(),'guide');return;}
+  }
+});
+</script>
+
+<!-- 변경 이력 FAB -->
+<button id="log-fab" onclick="openLogModal()" title="변경 이력 보기">
+  🕐<span id="log-badge"></span>
+</button>
+<div id="log-modal" onclick="if(event.target===this)closeLogModal()">
+  <div id="log-box">
+    <div id="log-head">
+      <h2>📋 변경 이력</h2>
+      <button onclick="closeLogModal()" style="border:none;background:none;font-size:20px;cursor:pointer;color:#aaa;">✕</button>
+    </div>
+    <div id="log-filters">
+      <button class="log-filter-btn on" onclick="setLogFilter('all',this)">전체</button>
+      <button class="log-filter-btn" onclick="setLogFilter('guide',this)">📋 수업안내문</button>
+    </div>
+    <div id="log-list"></div>
+    <div id="log-foot">
+      <span id="log-count-txt"></span>
+      <button id="log-clear-btn" onclick="clearLogs()">🗑️ 이력 전체 삭제</button>
+    </div>
+  </div>
+</div>
+<div id="demoBadge" style="display:none">체험판</div>
+</body>
+</html>
